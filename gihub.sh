@@ -1,4 +1,5 @@
 #!/bin/bash
+cd /home/ubuntu/script
 
 bdate=`date +%Y%m%d%H`
 
