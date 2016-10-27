@@ -42,7 +42,7 @@ replace INTO TABLE crea
 fields terminated BY \"|\"
 
 (
-id,ml_num,addr,a_c,yr_built,sqft,bsmt1_out,bsmt2_out,br,constr1_out,fpl_num,gar_spaces,fuel,heating,level1,rm1_out,rm1_len,rm1_wth,level2,rm2_out,rm2_len,rm2_wth,level3,rm3_out,rm3_len,rm3_wth,level4,rm4_out,rm4_len,rm4_wth,level5,rm5_out,rm5_len,rm5_wth,level6,rm6_out,rm6_len,rm6_wth,level7,rm7_out,rm7_len,rm7_wth,level8,rm8_out,rm8_len,rm8_wth,level9,rm9_out,rm9_len,rm9_wth,level10,rm10_out,rm10_len,rm10_wth,level11,rm11_out,rm11_len,rm11_wth,level12,rm12_out,rm12_len,rm12_wth,lp_dol,municipality,zip,county,prop_feat1_out,prop_feat2_out,prop_feat3_out,prop_feat4_out,ad_text,s_r,style,bath_tot,type_own1_out,community,comp_pts,land_area,acres,pix_updt,pool,central_vac,tour_url,num_kit
+id,maint,ml_num,addr,a_c,yr_built,sqft,bsmt1_out,bsmt2_out,br,constr1_out,fpl_num,gar_spaces,fuel,heating,level1,rm1_out,rm1_len,rm1_wth,level2,rm2_out,rm2_len,rm2_wth,level3,rm3_out,rm3_len,rm3_wth,level4,rm4_out,rm4_len,rm4_wth,level5,rm5_out,rm5_len,rm5_wth,level6,rm6_out,rm6_len,rm6_wth,level7,rm7_out,rm7_len,rm7_wth,level8,rm8_out,rm8_len,rm8_wth,level9,rm9_out,rm9_len,rm9_wth,level10,rm10_out,rm10_len,rm10_wth,level11,rm11_out,rm11_len,rm11_wth,level12,rm12_out,rm12_len,rm12_wth,lp_dol,municipality,zip,county,prop_feat1_out,prop_feat2_out,prop_feat3_out,prop_feat4_out,ad_text,s_r,style,bath_tot,type_own1_out,community,comp_pts,land_area,acres,pix_updt,pool,central_vac,tour_url,num_kit
 );
 
 "
@@ -103,6 +103,8 @@ echo "export CREA address into tmp file"
 sudo rm $mapfile
 `$sqlcmd -e "$exportloc"`
 count=`wc -l $mapfile`
+#create new house file
+cat $mapfile >/tmp/newhouse.csv
 echo "`date`:  CREA  for Google Map API - $count"
 echo "`date`:  Export CREA List for Google Map API - $count" >>$mlslog
 
@@ -153,6 +155,8 @@ function export_crea_table {
 #Export  CREA CSV for LOADING
 exportcrea="
 select 
+'CREA',
+maint,
 propertytype_id,
 land_area,
 acres,
@@ -319,15 +323,6 @@ echo "Export CREA Table for MaplyCity H_house"
 #Load Data into maplecity table
 
 
-sql="
-
-LOAD DATA LOCAL infile '/tmp/crea_house.csv'
-IGNORE INTO TABLE h_house
-fields terminated BY \"|\"
-
-(propertytype_id,land_area,acres,city_id, latitude,longitude, addr    , a_c     , yr_built        , sqft    , area    , area_code       , bsmt1_out       , bsmt2_out       , br      , br_plus , central_vac     , community       , community_code  , cross_st        , elevator        , constr1_out     , constr2_out     , extras  , fpl_num , comp_pts        , furnished       , gar_spaces      , fuel    , heating , num_kit , kit_plus        , level1  , level10 , level11 , level12 , level2  , level3  , level4  , level5  , level6  , level7  , level8  , level9  , lp_dol  , depth   , front_ft        , lotsz_code      , ml_num  , municipality    , municipality_code       , pix_updt        , pool    , zip    , prop_feat1_out  , prop_feat2_out  , prop_feat3_out  , prop_feat4_out  , prop_feat5_out  , prop_feat6_out  , county  , ad_text , rm1_out , rm1_dc1_out     , rm1_dc2_out     , rm1_dc3_out     , rm1_len , rm1_wth , rm10_out        , rm10_dc1_out    , rm10_dc2_out    , rm10_dc3_out    , rm10_len        , rm10_wth        , rm11_out        , rm11_dc1_out    , rm11_dc2_out    , rm11_dc3_out    , rm11_len        , rm11_wth        , rm12_out        , rm12_dc1_out    , rm12_dc2_out    , rm12_dc3_out    , rm12_len        , rm12_wth        , rm2_out , rm2_dc1_out     , rm2_dc2_out     , rm2_dc3_out     , rm2_len , rm2_wth , rm3_out , rm3_dc1_out     , rm3_dc2_out     , rm3_dc3_out     , rm3_len , rm3_wth , rm4_out , rm4_dc1_out     , rm4_dc2_out     , rm4_dc3_out     , rm4_len , rm4_wth , rm5_out , rm5_dc1_out     , rm5_dc2_out     , rm5_dc3_out     , rm5_len , rm5_wth , rm6_out , rm6_dc1_out     , rm6_dc2_out     , rm6_dc3_out     , rm6_len , rm6_wth , rm7_out , rm7_dc1_out     , rm7_dc2_out     , rm7_dc3_out     , rm7_len , rm7_wth , rm8_out , rm8_dc1_out     , rm8_dc2_out     , rm8_dc3_out     , rm8_len , rm8_wth , rm9_out , rm9_dc1_out     , rm9_dc2_out     , rm9_dc3_out     , rm9_len , rm9_wth , rms     , rooms_plus      , s_r     , style   , yr      , taxes   , type_own1_out   , tour_url        , bath_tot)
-;
-"
 #echo "Load SQL into Maplecity DB"
 #Load this after TREB data is loaded -export_condo.sh
 #`$msql -e "$sql"`
@@ -339,8 +334,6 @@ function data_trans {
 
 echo "Start Data Tranform"
 
-#Generate city house count for map
-#sql="insert h_mapcitycount select  municipality,county,count(*) from h_house group by municipality,county;"
 
 #Transform propery type
 
@@ -380,19 +373,22 @@ export_crea_table
 echo "`date`: Load_CREA Script Complete" >>$mlslog
 #Start Loading TREB
 
-/home/ubuntu/script/loadmls.sh
+#/home/ubuntu/script/loadmls.sh
+#/home/ubuntu/script/loadmls_vow.sh
+#/home/ubuntu/script/loadmls_vowlocal.sh
 
 #backup script and DB
-echo "`date`: Start Backup Script " >>$mlslog
+#echo "`date`: Start Backup Script " >>$mlslog
 
-cd /home/ubuntu/script
-bdate=`date +%Y%m%d`
-backupfile="/tmp/f_script$bdate.tar.gz"
-tar cvfz $backupfile ./*
-scp $backupfile dzheng@alinew:backup/
+#cd /home/ubuntu/script
+#bdate=`date +%Y%m%d`
+#backupfile="/tmp/f_script$bdate.tar.gz"
+#tar cvfz $backupfile ./*
+#scp $backupfile dzheng@alinew:backup/
 #Backup DB
-mysqldump -u root -p19701029 --databases mls >/tmp/mlsdb.$bdate
-rm /tmp/mlsdb.$bdate.gz
-gzip /tmp/mlsdb.$bdate
-scp /tmp/mlsdb.$bdate.gz dzheng@alinew:backup/
+#mysqldump -u root -p19701029 --databases mls >/tmp/mlsdb.$bdate
+#rm /tmp/mlsdb.$bdate.gz
+#gzip /tmp/mlsdb.$bdate
+#scp /tmp/mlsdb.$bdate.gz dzheng@alinew:backup/
 
+#echo "`date`: End Backup Script " >>$mlslog

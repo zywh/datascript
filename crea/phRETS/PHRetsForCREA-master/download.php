@@ -253,8 +253,18 @@ function resi($listing,$type)
 {
 	$ml_num = $listing["ListingID"];
 	$id = $listing["@attributes"]["ID"];
-	$lastupdate = $listing["@attributes"]["LastUpdated"];
+	#$lastupdate = $listing["@attributes"]["LastUpdated"];
+	#$pix_updt = date('Y-m-d',strtotime($lastupdate));
+	if (isset($listing["ListingContractDate"])){
+
+	$lastupdate = $listing["ListingContractDate"];
+	$lastupdate = str_replace('/', '-', $lastupdate);
 	$pix_updt = date('Y-m-d',strtotime($lastupdate));
+	}else {
+	 $lastupdate = $listing["@attributes"]["LastUpdated"];
+	 $pix_updt = date('Y-m-d',strtotime($lastupdate));
+
+	}
 
 	
 	
@@ -623,6 +633,7 @@ function resi($listing,$type)
 	//Levels end
 	
 	$lp_dol = isset($listing["Price"])? $listing["Price"] : "" ;
+	$maint = isset($listing["MaintenanceFee"])? $listing["MaintenanceFee"] : "" ;
 	$prop_feat1_out = isset($listing["AmmenitiesNearBy"])? $listing["AmmenitiesNearBy"] : "" ;
 	$prop_feat2_out = isset($listing["Land"]["Amenities"])? $listing["Land"]["Amenities"] : "" ;
 	$prop_feat3_out = isset($listing["Features"])? $listing["Features"] : "" ;
@@ -695,7 +706,7 @@ function resi($listing,$type)
 	
 	
 	
-	echo "$id|$ml_num|$addr|$a_c|$yr_built|$sqft|$bsmt1_out|$bsmt2_out|$br|$constr1_out|$fpl_num|$gar_spaces|$fuel|$heating|$level1|$rm1_out|$rm1_len|$rm1_wth|$level2|$rm2_out|$rm2_len|$rm2_wth|$level3|$rm3_out|$rm3_len|$rm3_wth|$level4|$rm4_out|$rm4_len|$rm4_wth|$level5|$rm5_out|$rm5_len|$rm5_wth|$level6|$rm6_out|$rm6_len|$rm6_wth|$level7|$rm7_out|$rm7_len|$rm7_wth|$level8|$rm8_out|$rm8_len|$rm8_wth|$level9|$rm9_out|$rm9_len|$rm9_wth|$level10|$rm10_out|$rm10_len|$rm10_wth|$level11|$rm11_out|$rm11_len|$rm11_wth|$level12|$rm12_out|$rm12_len|$rm12_wth|$lp_dol|$municipality|$zip|$county|$prop_feat1_out|$prop_feat2_out|$prop_feat3_out|$prop_feat4_out|$ad_text|$s_r|$style|$bath_tot|$type_own1_out|$community|$comp_pts|$land_area|$acres|$pix_updt|$pool|$central_vac|$tour_url|$num_kit\n";
+	echo "$id|$maint|$ml_num|$addr|$a_c|$yr_built|$sqft|$bsmt1_out|$bsmt2_out|$br|$constr1_out|$fpl_num|$gar_spaces|$fuel|$heating|$level1|$rm1_out|$rm1_len|$rm1_wth|$level2|$rm2_out|$rm2_len|$rm2_wth|$level3|$rm3_out|$rm3_len|$rm3_wth|$level4|$rm4_out|$rm4_len|$rm4_wth|$level5|$rm5_out|$rm5_len|$rm5_wth|$level6|$rm6_out|$rm6_len|$rm6_wth|$level7|$rm7_out|$rm7_len|$rm7_wth|$level8|$rm8_out|$rm8_len|$rm8_wth|$level9|$rm9_out|$rm9_len|$rm9_wth|$level10|$rm10_out|$rm10_len|$rm10_wth|$level11|$rm11_out|$rm11_len|$rm11_wth|$level12|$rm12_out|$rm12_len|$rm12_wth|$lp_dol|$municipality|$zip|$county|$prop_feat1_out|$prop_feat2_out|$prop_feat3_out|$prop_feat4_out|$ad_text|$s_r|$style|$bath_tot|$type_own1_out|$community|$comp_pts|$land_area|$acres|$pix_updt|$pool|$central_vac|$tour_url|$num_kit\n";
 	
 }
 

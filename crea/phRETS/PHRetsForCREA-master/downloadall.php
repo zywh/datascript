@@ -4,8 +4,8 @@
 // Lots of output, saves requests to a local file.
 $debugMode = false; 
 // Initially, you should set this to something like "-2 years". Once you have all day, change this to "-48 hours" or so to pull incremental data
-//$TimeBackPull = "-2 years";
-$TimeBackPull = "-24 hours";
+$TimeBackPull = "-1 years";
+//$TimeBackPull = "-26 hours";
 
 /* RETS Variables */
 require("PHRets_CREA_d.php");
@@ -27,6 +27,167 @@ if($debugMode /* DEBUG OUTPUT */)
 	$RETS->SetParam("debug_mode", true);
 }
 
+
+function landsize($line) {
+	
+	$line = strtolower ($line);
+	$line = preg_replace('/\s+/', '', $line);
+	
+	if (strpos($line, 'sq') !== false){
+		$line = str_replace('.', '', $line);
+	}
+	
+	$remove[] = "unit=";
+	$remove[] = ",";
+	$remove[] = "approx";	
+	//$line = str_replace(',', '', $line);
+	//$line = str_replace('approx', '', $line);
+	$line = str_replace($remove, '', $line);
+	$line = str_replace('acre', 'ac', $line);
+	$line = str_replace('acres', 'ac', $line);
+	$line = str_replace('acs', 'ac', $line);
+	$line = str_replace('sqmeters', 'sqm', $line);
+	$line = preg_replace('/or*/', '|', $line);
+	$line = preg_replace('/\(/', '|', $line);
+	$line = preg_replace('/irr/', '|', $line);
+	$line = preg_replace('/app/', '|', $line);
+	$o = "$line";
+
+	// | 
+	if (strpos($line, '|') !== false) { 
+		$pipe =explode("|", $line);
+		
+		if ( strpos($pipe[0], 'ac') !== false ) { // | 0.5 ac|under 1 acre
+			$ot = str_replace("ac","",$pipe[0]);
+			if ( is_numeric($ot) ) {
+			  $o = $ot * 43560;
+			}
+			
+		} 
+		
+		if ( strpos($pipe[0], 'sqft') !== false ) { // 8051sqft|
+			$ot = str_replace("sqft","",$pipe[0]);
+			if ( is_numeric($ot) ) {
+			  $o = $ot;
+			}
+			
+		} 
+		if ( is_numeric($pipe[0] ))  {
+			  $o = $pipe[0] * 43560;
+		}
+	
+	}
+		
+	if (strpos($line, '|') == false && strpos($line, 'ac') !== false ) { //4.65ac
+		 
+		 $ot = str_replace("ac","",$line);
+		 if ( is_numeric($ot) ) {
+			  $o = $ot * 43560;
+		 }
+		
+	}
+	
+
+	if (strpos($line, 'm2') !== false) {   //857.6m2  
+		$ot = str_replace("m2","",$line);
+		
+		if ( is_numeric($ot) ) {
+			  $o = $ot * 10.76;
+		 }
+	} 
+	
+	//sqft
+	if (strpos($line, 'sqft') !== false) {
+		if (strpos($line, '|') !== false) { 
+			$pipe =explode("|", $line);
+			$ot = $pipe[0];
+		}
+		
+		$ot = str_replace("sqft","",$line);
+		if ( is_numeric($ot) ){
+			$o = $ot;
+		}
+		
+	} 
+	
+	//sqm
+	if (strpos($line, 'sqm') !== false) {
+		if (strpos($line, '|') !== false) { 
+			$pipe =explode("|", $line);
+			$ot = $pipe[0];
+			$ot = str_replace("sqm","",$ot);
+		} 
+		else {
+			$ot = str_replace("sqm","",$line);
+		}
+		
+		if ( is_numeric($ot) ){
+			$o = $ot * 10.76;
+		}
+		
+	} 
+	
+	
+
+	
+	// md:
+	
+	if (strpos($line, 'md:') !== false && strpos($line, 'w:') !== false) {
+		$pipe =explode(":", $line);
+		$o1 = str_replace("md","",$pipe[1]);
+		$o2 = preg_replace('/m.*/',"",$pipe[2]);
+		
+		if ( is_numeric($o1) && is_numeric($o2)) {  //w:16.3300md:33.5000mshape:rec
+
+			$o = $o1 * $o2 * 10.76;
+		}
+		
+	}
+	if (is_numeric($line)) {
+		$o = $line; 
+	 }
+	
+	
+	// a x b
+	
+	if (strpos($line, 'x') !== false) { 
+		
+		$factor = 1;
+		$pipe = str_replace("'","",$line); // remove '
+		
+		
+		if ( strpos($pipe, '|') !== false ){
+			$pipe = explode("|", $pipe);
+			$pipe = $pipe[0];
+		}
+		
+		$pipe = str_replace("ft","",$pipe); // remove ft
+		$pipe = str_replace("feet","",$pipe); // remove ft
+		if (strpos($pipe, 'm') !== false ){
+			$pipe = str_replace("m","",$pipe); // remove m
+			$factor = 10.76;
+			
+		}
+		
+		$pipe =explode("x", $pipe);
+		if ( is_numeric($pipe[0]) && is_numeric($pipe[1]) ) { //50x140
+			$o = $pipe[0] * $pipe[1] * $factor;
+		}
+
+		
+	}
+	
+	if ( is_numeric($o) ) {
+		return $o;
+	}
+	else {
+		return '0';
+	}
+	
+	
+}
+
+
 function size($d){
 			
 		//12 ft x 20 ft ,2 in 
@@ -36,7 +197,10 @@ function size($d){
         $rm1_wth ="0";
 		
 		if (is_string($d) && strpos($d, 'x') !== false) {
-			list($wth,$len) = explode("x", $d);
+			//list($wth,$len) = explode("x", $d);
+			$s = explode("x", $d);
+			$wth = $s[0];
+			$len = $s[1];
 			if (strpos($wth, 'ft') !== false) {
 					$l = str_replace(",",".",$wth);
 					$l = str_replace("ft","",$l);
@@ -85,12 +249,22 @@ function land($listing){
 }
 	
 
-function resi($listing)
+function resi($listing,$type)
 {
 	$ml_num = $listing["ListingID"];
 	$id = $listing["@attributes"]["ID"];
-	$lastupdate = $listing["@attributes"]["LastUpdated"];
+	#$lastupdate = $listing["@attributes"]["LastUpdated"];
+	#$pix_updt = date('Y-m-d',strtotime($lastupdate));
+	if (isset($listing["ListingContractDate"])){
+
+	$lastupdate = $listing["ListingContractDate"];
+	$lastupdate = str_replace('/', '-', $lastupdate);
 	$pix_updt = date('Y-m-d',strtotime($lastupdate));
+	}else {
+	 $lastupdate = $listing["@attributes"]["LastUpdated"];
+	 $pix_updt = date('Y-m-d',strtotime($lastupdate));
+
+	}
 
 	
 	
@@ -108,7 +282,7 @@ function resi($listing)
 		if (strpos($s, ',') !== false) {
 			$ss = explode(",",$s);
 			//Panorama Hills, Calgary - Get name after comma
-			$municipality = $ss[1];
+			$municipality = trim($ss[1]);
 		}		
 			
 	} else { $municipality =""; }
@@ -134,13 +308,32 @@ function resi($listing)
 		}
 	} else { $comp_pts = "";}	
 	
+	//Generate acres - string and land_area = number
+	//It translate it into land_area and acres accordingly
+
 	
-	if (isset($listing["Land"]["SizeTotal"])) {
-		$s = $listing["Land"]["SizeTotal"];
-		//Prevent | cause issue as CSV delimitor
-		$depth = str_replace("|"," ",$s);
+	
+	if (isset($listing["Land"]["SizeTotalText"]) ) {
+		//echo "Start SizeTotalText".$listing["Land"]["SizeTotalText"]."\n";	
+		$s = $listing["Land"]["SizeTotalText"];
+		 $land_area = landsize($s);
+		 $acres =  str_replace("|","-",$s);;
+	} else {
+			$land_area = "0";
+			$acres = "";
 	}
-	else{ $depth = ""; }
+	
+	/*
+	if (isset($listing["Land"]["SizeTotal"]) && $land_area = "0" ) {
+		$s = $listing["Land"]["SizeTotal"];
+		$land_area = landsize($s);
+		$acres = $s;
+	} else {
+		$land_area = 0;
+		$acres = "";
+	}*/
+	
+	//echo "LandSize:".$land_area."LandSizeText:".$acres."\n";
 	
 	$zip = isset($listing["Address"]["PostalCode"])? $listing["Address"]["PostalCode"] : "" ;
 	$county = isset($listing["Address"]["Province"])? $listing["Address"]["Province"] : "" ;
@@ -189,31 +382,126 @@ function resi($listing)
 	$fuel = isset($listing["Building"]["HeatingFuel"])? $listing["Building"]["HeatingFuel"] : "";
 	$heating = isset($listing["Building"]["HeatingType"])? $listing["Building"]["HeatingType"] : "";
 	
+	//Kit
+	$num_kit = 0;
 	//ROOMS start
 	$level1 = isset($listing["Building"]["Rooms"]["Room"]["0"]["Level"])? $listing["Building"]["Rooms"]["Room"]["0"]["Level"] : "";
-	$rm1_out = isset($listing["Building"]["Rooms"]["Room"]["0"]["Type"])? $listing["Building"]["Rooms"]["Room"]["0"]["Type"] : "";
+	//$rm1_out = isset($listing["Building"]["Rooms"]["Room"]["0"]["Type"])? $listing["Building"]["Rooms"]["Room"]["0"]["Type"] : "";
+	if (isset($listing["Building"]["Rooms"]["Room"]["0"]["Type"])) {
+		$rm1_out = $listing["Building"]["Rooms"]["Room"]["0"]["Type"];
+		if ( strpos($rm1_out, 'Kit') !== false ){
+		++$num_kit;
+		}
+	} else { $rm1_out = "";}
+ 
+	
 	$level2 = isset($listing["Building"]["Rooms"]["Room"]["1"]["Level"])? $listing["Building"]["Rooms"]["Room"]["1"]["Level"] : "";
-	$rm2_out = isset($listing["Building"]["Rooms"]["Room"]["1"]["Type"])? $listing["Building"]["Rooms"]["Room"]["1"]["Type"] : "";
+	
+	if (isset($listing["Building"]["Rooms"]["Room"]["1"]["Type"])) {
+		$rm2_out = $listing["Building"]["Rooms"]["Room"]["1"]["Type"];
+		if ( strpos($rm2_out, 'Kit') !== false ){
+		++$num_kit;
+		}
+	} else { $rm2_out = "";}
 	$level3 = isset($listing["Building"]["Rooms"]["Room"]["2"]["Level"])? $listing["Building"]["Rooms"]["Room"]["2"]["Level"] : "";
-	$rm3_out = isset($listing["Building"]["Rooms"]["Room"]["2"]["Type"])? $listing["Building"]["Rooms"]["Room"]["2"]["Type"] : "";
+
+	if (isset($listing["Building"]["Rooms"]["Room"]["2"]["Type"])) {
+		$rm3_out = $listing["Building"]["Rooms"]["Room"]["2"]["Type"];
+		if ( strpos($rm3_out, 'Kit') !== false ){
+		++$num_kit;
+		}
+	} else { $rm3_out = "";}
+	
 	$level4 = isset($listing["Building"]["Rooms"]["Room"]["3"]["Level"])? $listing["Building"]["Rooms"]["Room"]["3"]["Level"] : "";
-	$rm4_out = isset($listing["Building"]["Rooms"]["Room"]["3"]["Type"])? $listing["Building"]["Rooms"]["Room"]["3"]["Type"] : "";
+
+	if (isset($listing["Building"]["Rooms"]["Room"]["3"]["Type"])) {
+		$rm4_out = $listing["Building"]["Rooms"]["Room"]["3"]["Type"];
+		if ( strpos($rm4_out, 'Kit') !== false ){
+		++$num_kit;
+
+		}
+	} else { $rm4_out = "";}
+	
 	$level5 = isset($listing["Building"]["Rooms"]["Room"]["4"]["Level"])? $listing["Building"]["Rooms"]["Room"]["4"]["Level"] : "";
-	$rm5_out = isset($listing["Building"]["Rooms"]["Room"]["4"]["Type"])? $listing["Building"]["Rooms"]["Room"]["4"]["Type"] : "";	
+
+	if (isset($listing["Building"]["Rooms"]["Room"]["4"]["Type"])) {
+		$rm5_out = $listing["Building"]["Rooms"]["Room"]["4"]["Type"];
+		if ( strpos($rm5_out, 'Kit') !== false ){
+		++$num_kit;
+
+		}
+	} else { $rm5_out = "";}
+	
 	$level6 = isset($listing["Building"]["Rooms"]["Room"]["5"]["Level"])? $listing["Building"]["Rooms"]["Room"]["5"]["Level"] : "";
-	$rm6_out = isset($listing["Building"]["Rooms"]["Room"]["5"]["Type"])? $listing["Building"]["Rooms"]["Room"]["5"]["Type"] : "";
+
+	if (isset($listing["Building"]["Rooms"]["Room"]["5"]["Type"])) {
+		$rm6_out = $listing["Building"]["Rooms"]["Room"]["5"]["Type"];
+		if ( strpos($rm6_out, 'Kit') !== false ){
+		++$num_kit;
+
+		}
+	} else { $rm6_out = "";}
+	
 	$level7 = isset($listing["Building"]["Rooms"]["Room"]["6"]["Level"])? $listing["Building"]["Rooms"]["Room"]["6"]["Level"] : "";
-	$rm7_out = isset($listing["Building"]["Rooms"]["Room"]["6"]["Type"])? $listing["Building"]["Rooms"]["Room"]["6"]["Type"] : "";	
+
+	if (isset($listing["Building"]["Rooms"]["Room"]["6"]["Type"])) {
+		$rm7_out = $listing["Building"]["Rooms"]["Room"]["6"]["Type"];
+		if ( strpos($rm7_out, 'Kit') !== false ){
+		++$num_kit;
+
+		}
+	} else { $rm7_out = "";}
+	
 	$level8 = isset($listing["Building"]["Rooms"]["Room"]["7"]["Level"])? $listing["Building"]["Rooms"]["Room"]["7"]["Level"] : "";
-	$rm8_out = isset($listing["Building"]["Rooms"]["Room"]["7"]["Type"])? $listing["Building"]["Rooms"]["Room"]["7"]["Type"] : "";	
+
+	if (isset($listing["Building"]["Rooms"]["Room"]["7"]["Type"])) {
+		$rm8_out = $listing["Building"]["Rooms"]["Room"]["7"]["Type"];
+		if ( strpos($rm8_out, 'Kit') !== false ){
+		++$num_kit;
+
+		}
+	} else { $rm8_out = "";}
+	
 	$level9 = isset($listing["Building"]["Rooms"]["Room"]["8"]["Level"])? $listing["Building"]["Rooms"]["Room"]["8"]["Level"] : "";
-	$rm9_out = isset($listing["Building"]["Rooms"]["Room"]["8"]["Type"])? $listing["Building"]["Rooms"]["Room"]["8"]["Type"] : "";
+	
+	if (isset($listing["Building"]["Rooms"]["Room"]["8"]["Type"])) {
+		$rm9_out = $listing["Building"]["Rooms"]["Room"]["8"]["Type"];
+		if ( strpos($rm9_out, 'Kit') !== false ){
+		++$num_kit;
+
+		}
+	} else { $rm9_out = "";}
+	
+
 	$level10 = isset($listing["Building"]["Rooms"]["Room"]["9"]["Level"])? $listing["Building"]["Rooms"]["Room"]["9"]["Level"] : "";
-	$rm10_out = isset($listing["Building"]["Rooms"]["Room"]["9"]["Type"])? $listing["Building"]["Rooms"]["Room"]["9"]["Type"] : "";
+
+	if (isset($listing["Building"]["Rooms"]["Room"]["9"]["Type"])) {
+		$rm10_out = $listing["Building"]["Rooms"]["Room"]["9"]["Type"];
+		if ( strpos($rm10_out, 'Kit') !== false ){
+		++$num_kit;
+
+		}
+	} else { $rm10_out = "";}
+	
 	$level11 = isset($listing["Building"]["Rooms"]["Room"]["10"]["Level"])? $listing["Building"]["Rooms"]["Room"]["10"]["Level"] : "";
-	$rm11_out = isset($listing["Building"]["Rooms"]["Room"]["10"]["Type"])? $listing["Building"]["Rooms"]["Room"]["10"]["Type"] : "";
+
+	if (isset($listing["Building"]["Rooms"]["Room"]["10"]["Type"])) {
+		$rm11_out = $listing["Building"]["Rooms"]["Room"]["10"]["Type"];
+		if ( strpos($rm11_out, 'Kit') !== false ){
+		++$num_kit;
+
+		}
+	} else { $rm11_out = "";}
+	
 	$level12 = isset($listing["Building"]["Rooms"]["Room"]["11"]["Level"])? $listing["Building"]["Rooms"]["Room"]["11"]["Level"] : "";
-	$rm12_out = isset($listing["Building"]["Rooms"]["Room"]["11"]["Type"])? $listing["Building"]["Rooms"]["Room"]["11"]["Type"] : "";	
+	
+	if (isset($listing["Building"]["Rooms"]["Room"]["11"]["Type"])) {
+		$rm12_out = $listing["Building"]["Rooms"]["Room"]["11"]["Type"];
+		if ( strpos($rm12_out, 'Kit') !== false ){
+		++$num_kit;
+
+		}
+	} else { $rm12_out = "";}
 	
 	//ROOMS Repeat 12 times. Write a function to handle it
 	
@@ -348,6 +636,8 @@ function resi($listing)
 	$prop_feat1_out = isset($listing["AmmenitiesNearBy"])? $listing["AmmenitiesNearBy"] : "" ;
 	$prop_feat2_out = isset($listing["Land"]["Amenities"])? $listing["Land"]["Amenities"] : "" ;
 	$prop_feat3_out = isset($listing["Features"])? $listing["Features"] : "" ;
+	$prop_feat4_out = isset($listing["Land"]["LandscapeFeatures"])? $listing["Land"]["LandscapeFeatures"] : "" ;
+	
 	if (isset($listing["PublicRemarks"])) {
 		$s = $listing["PublicRemarks"] ;
 		//Prevent | cause issue as CSV delimitor
@@ -365,9 +655,11 @@ function resi($listing)
 		}
 		if (strpos($saletag, 'rent') !== false) {
 			$s_r = "Lease";
+			$lp_dol = isset($listing["Lease"])? $listing["Lease"] : "" ;
 		}		
 		if (strpos($saletag, 'lease') !== false) {
 			$s_r = "Lease";
+			$lp_dol = isset($listing["Lease"])? $listing["Lease"] : "";
 		}
 		
 	} 
@@ -399,6 +691,10 @@ function resi($listing)
 	} 
 	else {$type_own1_out ="";}
 	
+	if ($type == "Vacant Land"){
+		$type_own1_out = "Vacant Land";
+	}
+	
 	$pool = isset($listing["PoolType"])? $listing["PoolType"] : "" ;
 	
 	if (isset($listing["AlternateURL"]["VideoLink"])) {
@@ -409,7 +705,7 @@ function resi($listing)
 	
 	
 	
-	echo "$id|$ml_num|$addr|$a_c|$yr_built|$sqft|$bsmt1_out|$bsmt2_out|$br|$constr1_out|$fpl_num|$gar_spaces|$fuel|$heating|$level1|$rm1_out|$rm1_len|$rm1_wth|$level2|$rm2_out|$rm2_len|$rm2_wth|$level3|$rm3_out|$rm3_len|$rm3_wth|$level4|$rm4_out|$rm4_len|$rm4_wth|$level5|$rm5_out|$rm5_len|$rm5_wth|$level6|$rm6_out|$rm6_len|$rm6_wth|$level7|$rm7_out|$rm7_len|$rm7_wth|$level8|$rm8_out|$rm8_len|$rm8_wth|$level9|$rm9_out|$rm9_len|$rm9_wth|$level10|$rm10_out|$rm10_len|$rm10_wth|$level11|$rm11_out|$rm11_len|$rm11_wth|$level12|$rm12_out|$rm12_len|$rm12_wth|$lp_dol|$municipality|$zip|$county|$prop_feat1_out|$prop_feat2_out|$prop_feat3_out|$ad_text|$s_r|$style|$bath_tot|$type_own1_out|$community|$comp_pts|$depth|$pix_updt|$pool|$central_vac|$tour_url\n";
+	echo "$id|$ml_num|$addr|$a_c|$yr_built|$sqft|$bsmt1_out|$bsmt2_out|$br|$constr1_out|$fpl_num|$gar_spaces|$fuel|$heating|$level1|$rm1_out|$rm1_len|$rm1_wth|$level2|$rm2_out|$rm2_len|$rm2_wth|$level3|$rm3_out|$rm3_len|$rm3_wth|$level4|$rm4_out|$rm4_len|$rm4_wth|$level5|$rm5_out|$rm5_len|$rm5_wth|$level6|$rm6_out|$rm6_len|$rm6_wth|$level7|$rm7_out|$rm7_len|$rm7_wth|$level8|$rm8_out|$rm8_len|$rm8_wth|$level9|$rm9_out|$rm9_len|$rm9_wth|$level10|$rm10_out|$rm10_len|$rm10_wth|$level11|$rm11_out|$rm11_len|$rm11_wth|$level12|$rm12_out|$rm12_len|$rm12_wth|$lp_dol|$municipality|$zip|$county|$prop_feat1_out|$prop_feat2_out|$prop_feat3_out|$prop_feat4_out|$ad_text|$s_r|$style|$bath_tot|$type_own1_out|$community|$comp_pts|$land_area|$acres|$pix_updt|$pool|$central_vac|$tour_url|$num_kit\n";
 	
 }
 
@@ -517,12 +813,13 @@ for($i = 0; $i < ceil($totalAvailable / $RETS_LimitPerQuery); $i++)
 		$property_type = $listing["PropertyType"];
 		switch ($property_type) {
 			case "Single Family":
-			 resi($listing);
+			 resi($listing,"Single Family");
 			 $ml_num = $listing["ListingID"];
 			 //downloadPhotos($ID,$ml_num);
 		 	 break;	
 			case "Vacant Land":
-			 land($listing);
+			//echo "Start Vacant Land Listing";
+			 resi($listing,"Vacant Land");
 			  break;
 			default:
 			 listdefault($listing); 

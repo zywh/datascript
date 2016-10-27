@@ -3,11 +3,21 @@
 /* Script Variables */
 // Lots of output, saves requests to a local file.
 $debugMode = false; 
+$file = '/home/ubuntu/log/dowloadpic.log';
+// The new person to add to the file
+date_default_timezone_set('America/Toronto');
+$date = date('m/d/Y h:i:s a', time());
+$s = $date.":Start\n";
+file_put_contents($file, $s, FILE_APPEND | LOCK_EX);
+echo "Start List of Remote Crea Dir";
+shell_exec('ssh dzheng@alinew /home/dzheng/script/list_crea_pic.sh');
+echo "End Get Remote Dir";
+
+
 // Initially, you should set this to something like "-2 years". Once you have all day, change this to "-48 hours" or so to pull incremental data
 //$TimeBackPull = "-2 years";
 $TimeBackPull = "-24 hours";
 
-$arg1 = $argv[1];
 /* RETS Variables */
 require("PHRets_CREA_d.php");
 //require("PHRets_CREA.php");
@@ -19,8 +29,8 @@ $RETS->Connect($RETSURL, $RETSUsername, $RETSPassword);
 $RETS->AddHeader("RETS-Version", "RETS/1.7.2");
 $RETS->AddHeader('Accept', '/');
 $RETS->SetParam('compression_enabled', true);
-#$RETS_PhotoSize = "LargePhoto";
-$RETS_PhotoSize = "Photo";
+$RETS_PhotoSize = "LargePhoto";
+#$RETS_PhotoSize = "Photo";
 $RETS_LimitPerQuery = 100;
 if($debugMode /* DEBUG OUTPUT */)
 {
@@ -452,7 +462,7 @@ function downloadPhotos($listingID,$folder,$ml_num)
 			$listing = $photo['Content-ID'];
 			$number = $photo['Object-ID'];
 			//$photofolder = "/mls/crea/Photo".$ml_num;
-			$photofolder = $folder.$ml_num;
+			$photofolder = $folder."Photo".$ml_num;
 			if (!is_dir($photofolder)) {
 				// dir doesn't exist, make it
 				mkdir($photofolder);
@@ -460,7 +470,7 @@ function downloadPhotos($listingID,$folder,$ml_num)
 
 			$destination = "Photo".$ml_num."-".$number.".jpg";
 			$photoData = $photo['Data'];
-			echo "$photofolder $destination\n";
+			#echo "$photofolder $destination\n";
 			
 			/* @TODO SAVE THIS PHOTO TO YOUR PHOTOS FOLDER
 			 * Easiest option:
@@ -522,25 +532,55 @@ for($i = 0; $i < ceil($totalAvailable / $RETS_LimitPerQuery); $i++)
 		switch ($property_type) {
 			case "Single Family":
 			 //resi($listing);
+			#echo "Start Single Family Picture Download\n";
 			 $ml_num = $listing["ListingID"];
+			 #$fprefix = "/var/www/html/mlspic/crea/";
 			 $fprefix = "/mls/crea/";
+			 if (isset($listing["Address"]["Province"])) {
+
 			 $l = $listing["Address"]["Province"];
 		         //Remove space from province	
 			 $l = preg_replace('/\s+/', '', $l);
 		         //Remove & from province	
 			 $l = str_replace("&","",$l);
 			 $folder = $fprefix . $l."/";
+
+                         //Check if folder exist. if yes skip to speed up download
+                         //$mlsfolder = $folder."Photo".$ml_num;
+			$checkfolder = shell_exec('grep '.$ml_num.' /tmp/crearemotedir');
+ 
+                        if (empty($checkfolder) ) {
 			 echo "$ID, $ml_num, $folder\n";
-			 //Check if folder exist. if yes skip to speed up download
-			 $mlsfolder = $folder.$ml_num; 
-			if (!file_exists($mlsfolder) && $arg1 == $l ) {
-			 downloadPhotos($ID,$folder,$ml_num);
-			} else  { echo "$mlsfolder skip\n";}
+                         downloadPhotos($ID,$folder,$ml_num);
+                        } else  { echo "$checkfolder skip\n";}
+
+			}
+
 
 
 		 	 break;	
 			case "Vacant Land":
-			 land($listing);
+			 //#land($listing);
+                        $ml_num = $listing["ListingID"];
+                         #$fprefix = "/var/www/html/mlspic/crea/";
+			$fprefix = "/mls/crea/";
+			 if (isset($listing["Address"]["Province"])) {
+                         $l = $listing["Address"]["Province"];
+                         //Remove space from province
+                         $l = preg_replace('/\s+/', '', $l);
+                         //Remove & from province
+                         $l = str_replace("&","",$l);
+                         $folder = $fprefix . $l."/";
+
+                         //Check if folder exist. if yes skip to speed up download
+                        //$mlsfolder = $folder."Photo".$ml_num;
+                        $checkfolder = shell_exec('grep '.$ml_num.' /tmp/remotedir');
+
+                        if (empty($checkfolder) ) {
+                         echo "$ID, $ml_num, $folder\n";
+                         downloadPhotos($ID,$folder,$ml_num);
+                        } else  { echo "$checkfolder skip\n";}
+			}
 			  break;
 			default:
 			 listdefault($listing); 
@@ -570,4 +610,7 @@ Connecting to RETS as '[YOUR RETS USERNAME]'...
 -----Get IDs For 400 to 500. Mem: 3.4MB-----
 */
 
+$date = date('m/d/Y h:i:s a', time());
+$s = $date.":Complete\n";
+file_put_contents($file, $s, FILE_APPEND | LOCK_EX);
 ?>
