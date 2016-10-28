@@ -227,21 +227,8 @@ echo "Export MLS Condo Table for MaplyCity H_house"
 /usr/bin/mysql -u root -p19701029 mls -e "$exportresi"
 echo "`date`: Condo Date for Import - `wc -l /tmp/condo.csv`" >>$mlslog
 
-#sudo gzip /tmp/condo.csv
 
 
-#echo "SCP CSV to Ali Server...."
-#ssh root@ali rm  /tmp/condo.csv
-#scp /tmp/condo.csv.gz root@ali:/tmp/condo.csv.gz
-#sleep 10
-#echo "`date` :Unzip Condo CSV File" 
-#ssh root@ali gzip -d /tmp/condo.csv.gz
-
-
-#Load Data into maplecity table
-
-#echo "Load Condo Data into Maplecity DB"
-#ssh root@ali /root/script/loadcondo.sh
 echo "Load Condo Data into New MapleCity Server"
 
 

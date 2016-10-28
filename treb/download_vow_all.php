@@ -10,8 +10,8 @@ $rets_login_url = "http://rets.torontomls.net:6103/rets-treb3pv/server/login";
 $rets_username = "V16yzh";
 $rets_password = "Ap$3778";
 
-$TimeBackPull = "-6 days";
-//$TimeBackPull = "-26 hours";
+//$TimeBackPull = "-6 days";
+$TimeBackPull = "-90 days";
 
 $rets_modtimestamp_field = "Timestamp_sql";
 //$previous_start_time = date('Y-m-d', strtotime($TimeBackPull))."T00:00:00";
@@ -19,8 +19,7 @@ $previous_start_time = date('Y-m-d', strtotime($TimeBackPull));
 $query = "({$rets_modtimestamp_field}={$previous_start_time}+)";
 
 
-
-echo $query;
+echo "$query\n";
 
 // start rets connection
 $rets = new phRETS;
@@ -96,6 +95,7 @@ foreach ($property_classes as $class) {
 
                         if ($offset == 1) {
                                 $fields_order = $rets->SearchGetFields($search);
+                                //fputcsv($fh, $fields_order,"|");
                         }
 
 

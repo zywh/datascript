@@ -254,7 +254,7 @@ sql="update h_housetmp set city_id=3;"
 
 echo "Update property_type"
 sql="update h_housetmp set propertyType_id=1 where type_own1_out='Detached';
-update h_housetmp set propertyType_id=2 where type_own1_out='Townhouse' or type_own1_out='AttRowTwnhouse' or type_own1_out='Triplex'
+update h_housetmp set propertyType_id=2 where type_own1_out='Townhouse' or type_own1_out='Att/Row/Twnhouse' or type_own1_out='Triplex'
  or type_own1_out='Fourplex' or type_own1_out='Multiplex';
 update h_housetmp set propertyType_id=4 where type_own1_out='Semi-Detached' or type_own1_out='Link' or type_own1_out='Duplex';
 update h_housetmp set propertyType_id=5 where type_own1_out='Cottage' or type_own1_out='Rural Resid';
