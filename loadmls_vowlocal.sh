@@ -48,13 +48,13 @@ echo "u_condo:$condo_count" >> $stats
 
 ################################################
 #Load CSV into Table
-
-sudo chown mysql:mysql $vowresidata
-sudo chown mysql:mysql $vowcondodata
+sudo rm /tmp/resi.txt
+sudo rm /tmp/condo.txt
+sudo cat $vowresidata |sed 's/"//g' >/tmp/resi.txt 
+sudo cat $vowcondodata |sed 's/"//g' >/tmp/condo.txt 
+sudo chown mysql:mysql /tmp/resi.txt
+sudo chown mysql:mysql /tmp/condo.txt
 sudo chown mysql:mysql /tmp/idx.ml
-echo "copy $vowresidata,$vowcondodata to /tmp"
-sudo cp -p $vowresidata /tmp/resi.txt
-sudo cp -p $vowcondodata /tmp/condo.txt
 echo "Load data into tables......."
 
 loadcondo="
@@ -71,7 +71,7 @@ FIELDS TERMINATED BY '|'
 ;"
 /usr/bin/mysql -u root -p19701029 mls -e "$loadcondo"
 /usr/bin/mysql -u root -p19701029 mls -e "$loadresi"
-
+exit 0
 #Load IDX all for compare with VOW data
 load_idx="
 delete from idx_mls;
