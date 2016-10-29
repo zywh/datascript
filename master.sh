@@ -8,6 +8,11 @@ $scriptdir/load_crea.sh
 #Download vow data/picture and idx ml_num
 $scriptdir/load_vow.sh
 
+#Update treb pic_num table
+echo "`date` : Start Collect TREB Picture Count " >>$mlslog
+$scriptdir/count_pic_num.sh
+echo "`date` : End Treb Pic Count Update " >>$mlslog
+
 #Local VOW data into local resi and condo table
 $scriptdir/loadmls_vowlocal.sh
 
