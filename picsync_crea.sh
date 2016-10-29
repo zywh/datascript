@@ -24,7 +24,6 @@ scp /mls/tmp/creapic.tar dzheng@alinew:/var/www/html/mlspic/tmp
 ssh dzheng@alinew "cd /var/www/html/mlspic/crea;sudo tar xvf /var/www/html/mlspic/tmp/creapic.tar"
 echo "`date`: End SCP and Untar  CREA Pic " >>$mlslog
 echo "`date`: Copy CREA pictures to /disks/crea  " >>$mlslog
-sudo cp -r ./* /disk2/crea
-
-
+cd /mls/crea
+sudo  cp -r ./* /disk2/crea/
 
