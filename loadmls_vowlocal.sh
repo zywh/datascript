@@ -71,7 +71,6 @@ FIELDS TERMINATED BY '|'
 ;"
 /usr/bin/mysql -u root -p19701029 mls -e "$loadcondo"
 /usr/bin/mysql -u root -p19701029 mls -e "$loadresi"
-exit 0
 #Load IDX all for compare with VOW data
 load_idx="
 delete from idx_mls;

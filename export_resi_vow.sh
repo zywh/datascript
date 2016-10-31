@@ -53,6 +53,7 @@ while read line; do
 done < /tmp/map.csv
 
 
+cp /tmp/map.csv >>/tmp/newhouse.txt
 
 echo "Load location file into table"
 

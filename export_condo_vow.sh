@@ -28,7 +28,6 @@ echo "export address into tmp file"
 sudo rm /tmp/map.csv
 /usr/bin/mysql -u root -p$pass mls -e "$exportloc"
 count=`wc -l /tmp/map.csv`
-cat  /tmp/map.csv >>/tmp/newhouse.csv
 
 echo "`date`: Export Condo MLS for Google Map API - $count" >>$mlslog
 
@@ -56,6 +55,8 @@ while read line; do
         echo $mls,$location >>/tmp/latlng.txt
     #sleep 1
 done < /tmp/map.csv
+
+cp /tmp/map.csv >>/tmp/newhouse.txt
 
 
 #Load location file into table

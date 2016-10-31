@@ -6,6 +6,7 @@ sqlcmd="mysql -u root -p19701029 mls"
 msql="mysql -u hdm106787551 -h  alinew -pMaplemYsql100 --local-infile  hdm106787551_db "
 csvfile="/tmp/crea.update"
 active="/tmp/crea_active"
+creastats="/tmp/creastats"
 
 function download_crea  {
 
@@ -19,6 +20,8 @@ echo "`date`: Download CREA Complete - $count" >>$mlslog
 
 #Update stats table
 
+echo "update:$count" >$creastats
+
 
 echo "Download CREA Active List"
 #Download active listing
@@ -27,6 +30,8 @@ echo "`date`: Start downloading CREA ACTIVE" >>$mlslog
 php -f $phpdir/download_active.php >$active
 count=`wc -l $active`
 echo "`date`: Download CREA ACTIVE Complete - $count" >>$mlslog
+echo "total:$count" >>$creastats
+
 }
 
 #Function to import CREA data into crea table
@@ -68,7 +73,9 @@ then
         done
 	echo "Delete inactive listing from crea table...."	
 	`$sqlcmd </tmp/crea.delete`
-	echo "`date`: Compare Active  CREA  ID and CREA Table Complete" >>$mlslog
+	count=`wc -l /tmp/crea.delete`
+	echo "`date`: Compare Active  CREA  ID and CREA Table Complete Delete $count records" >>$mlslog
+	echo "delete:$count" >>$creastats
 
 fi
 
@@ -133,6 +140,8 @@ while read line; do
     echo $mls,$location >> $latlonfile
     #sleep 10
 done < $mapfile
+
+cp /tmp/map.csv >/tmp/newhouse.txt
 
 
 echo "Load location file into table"
@@ -371,24 +380,3 @@ export_crea_table
 
 
 echo "`date`: Load_CREA Script Complete" >>$mlslog
-#Start Loading TREB
-
-#/home/ubuntu/script/loadmls.sh
-#/home/ubuntu/script/loadmls_vow.sh
-#/home/ubuntu/script/loadmls_vowlocal.sh
-
-#backup script and DB
-#echo "`date`: Start Backup Script " >>$mlslog
-
-#cd /home/ubuntu/script
-#bdate=`date +%Y%m%d`
-#backupfile="/tmp/f_script$bdate.tar.gz"
-#tar cvfz $backupfile ./*
-#scp $backupfile dzheng@alinew:backup/
-#Backup DB
-#mysqldump -u root -p19701029 --databases mls >/tmp/mlsdb.$bdate
-#rm /tmp/mlsdb.$bdate.gz
-#gzip /tmp/mlsdb.$bdate
-#scp /tmp/mlsdb.$bdate.gz dzheng@alinew:backup/
-
-#echo "`date`: End Backup Script " >>$mlslog
