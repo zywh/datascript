@@ -27,3 +27,6 @@ echo "`date`: Copy CREA pictures to /disks/crea  " >>$mlslog
 cd /mls/crea
 sudo  cp -r ./* /disk2/crea/
 
+echo "`date`: Start CREA count for pic_num " >>$mlslog
+/home/ubuntu/script/count_crea_pic_num.sh
+echo "`date`: End CREA count for pic_num " >>$mlslog

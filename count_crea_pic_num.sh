@@ -3,7 +3,6 @@
 sqlfile="/tmp/crea_pic_num.txt"
 crea_pic_prefix="/disk2/crea"
 sudo rm $sqlfile
-echo `date` >/tmp/test_eval
 
 
 function scan_pic  {
@@ -36,8 +35,6 @@ scan_pic  PrinceEdwardIsland 'Prince Edward Island'
 scan_pic  NewBrunswick 'New Brunswick'
 scan_pic  NovaScotia 'Nova Scotia'
 
-echo `date` >>/tmp/test_eval
-exit 0
 
 sudo chown mysql:mysql $sqlfile
 #sqlcmd="mysql -u hdm106787551 -h  alinew -pMaplemYsql100 --local-infile  hdm106787551_db "
