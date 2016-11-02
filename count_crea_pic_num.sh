@@ -1,9 +1,9 @@
 #!/bin/bash
 
-sqlfile="/tmp/pic_num.txt"
-cd /mls/treb
+sqlfile="/tmp/crea_pic_num.txt"
+cd /mls/crea
 sudo rm $sqlfile
-du -a | cut -d/ -f2 | sort | uniq -c >/tmp/treb_pic_count.raw
+#du -a | cut -d/ -f2 | sort | uniq -c >/tmp/treb_pic_count.raw
 cat /tmp/treb_pic_count.raw | while read line
 do
 set $line
