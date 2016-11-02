@@ -165,6 +165,7 @@ function export_crea_table {
 exportcrea="
 select 
 'CREA',
+pic.pic_num,
 maint,
 propertytype_id,
 land_area,
@@ -314,6 +315,8 @@ LEFT JOIN location l
 ON crea.ml_num = l.ml_num
 LEFT JOIN province p
 ON crea.county = p.name
+LEFT JOIN pic_num pic
+ON crea.ml_num = pic.ml_num
 INTO OUTFILE '/tmp/crea_house.csv'
 FIELDS TERMINATED BY '|'
 LINES TERMINATED BY '\n';
