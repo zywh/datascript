@@ -8,6 +8,10 @@ $scriptdir/load_crea.sh
 #Download vow data/picture and idx ml_num
 $scriptdir/load_vow.sh
 
+echo "`date` : Start TREB picture cleanup" >>$mlslog
+$scriptdir/cleanpic.sh
+echo "`date` : End TREB picture cleanup" >>$mlslog
+
 #Update treb pic_num table
 echo "`date` : Start Collect TREB Picture Count " >>$mlslog
 $scriptdir/count_pic_num.sh

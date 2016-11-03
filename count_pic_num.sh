@@ -1,6 +1,7 @@
 #!/bin/bash
 
 sqlfile="/tmp/pic_num.txt"
+crea_count_sql="/tmp/crea_pic_num.txt"
 cd /mls/treb
 sudo rm $sqlfile
 du -a | cut -d/ -f2 | sort | uniq -c >/tmp/treb_pic_count.raw
@@ -20,7 +21,11 @@ done
 
 sudo chown mysql:mysql $sqlfile
 #sqlcmd="mysql -u hdm106787551 -h  alinew -pMaplemYsql100 --local-infile  hdm106787551_db "
-loadsql="LOAD DATA INFILE '"$sqlfile"'  replace INTO TABLE pic_num   FIELDS TERMINATED BY ',' ;"
+loadsql="
+DELETE FROM pic_num;
+LOAD DATA INFILE '"$sqlfile"'  replace INTO TABLE pic_num   FIELDS TERMINATED BY ',' ;
+LOAD DATA INFILE '"$crea_count_sql"'  replace INTO TABLE pic_num   FIELDS TERMINATED BY ',' ;
+"
 
 /usr/bin/mysql -u root -p19701029 mls -e "$loadsql"
 
