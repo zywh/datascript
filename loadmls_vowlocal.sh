@@ -98,8 +98,9 @@ then
 	cat $homedir/vowresi/data/avail.txt >>/tmp/resi_mls
 	sort /tmp/resi_mls |uniq -c|grep "1 "|awk '{print $2}' | while read line
 	do
-	sql="delete from resi where ml_num='$line'"
-	#echo "Set  $line as unavailable"
+	sql="delete from vowresi where ml_num='$line'"
+	echo "$sql"
+	exit 0
 	mysql -u root -p19701029 -N -B mls -e "$sql"
 
 	done
