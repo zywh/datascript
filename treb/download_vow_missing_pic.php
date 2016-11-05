@@ -9,9 +9,9 @@ require_once("phrets.php");
 $rets_login_url = "http://rets.torontomls.net:6103/rets-treb3pv/server/login";
 $rets_username = "V16yzh";
 $rets_password = "Ap$3778";
-$id = $argv[1];
+$inputfile = $argv[1];
 #$id='W3642978';
-echo $id;
+#echo $id;
 
 
 
@@ -20,11 +20,10 @@ echo $id;
 $rets = new phRETS;
 $rets->SetParam("offset_support", true);
 $property_classes = array("ResidentialProperty","CondoProperty");
-echo "Connecting to {$rets_login_url} as {$rets_username}<br>\n";
 $connect = $rets->Connect($rets_login_url, $rets_username, $rets_password);
 
 if ($connect) {
-        echo "  + Connected<br>\n";
+        echo "  Connected<br>\n";
 }
 else {
         echo "  + Not connected:<br>\n";
@@ -32,12 +31,28 @@ else {
         exit;
 }
 
+$handle = fopen($inputfile, "r");
+if ($handle) {
+    while (($line = fgets($handle)) !== false) {
+        // process the line read.
+	$id= trim($line);
+	downloadpic($id);
+    }
+
+    fclose($handle);
+} else {
+    // error opening the file.
+} 
+
+function downloadpic($id){
+global $rets,$homedir,$pichome;
 
 $photos = $rets->GetObject("Property", "Photo", $id);
 $photofolder = $pichome."Photo".$id;
 //$photofolder = $homedir.$type."/picture/Photo".$id;
 
-echo count($photos);
+$count=count($photos);
+echo $id."-Count:".$count."\n";
 
 if (!is_dir($photofolder)) {
        mkdir($photofolder);
@@ -58,6 +73,7 @@ foreach ($photos as $photo) {
         }
 }
 
+}
 
 echo "Disconnecting\n";
 $rets->Disconnect();
