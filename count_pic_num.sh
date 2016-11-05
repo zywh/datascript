@@ -4,13 +4,14 @@ sqlfile="/tmp/pic_num.txt"
 crea_count_sql="/tmp/crea_pic_num.txt"
 cd /mls/treb
 sudo rm $sqlfile
-du -a | cut -d/ -f2 | sort | uniq -c >/tmp/treb_pic_count.raw
+du -a |grep jpeg| cut -d/ -f2 | sort | uniq -c >/tmp/treb_pic_count.raw
+exit 0
 cat /tmp/treb_pic_count.raw | while read line
 do
 set $line
 count=$1
 ml_num=`echo $2 | sed 's/Photo//'`
-((count = count - 1))
+#((count = count - 1))
 if [ -n "$ml_num" ]
 then
 #echo "update h_house set pic_num='"$count"' where ml_num='"$ml_num"';" >>/tmp/pic_num.sql
