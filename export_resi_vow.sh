@@ -256,21 +256,23 @@ echo "Load Resi data into New Server"
 `$sqlcmd -e "$sql"`
 
 #update city_id
-echo "Update City_ID"
-sql="update h_housetmp set city_id=3;"
-`$sqlcmd -e "$sql"`
 
 echo "Update property_type"
-sql="update h_housetmp set propertyType_id=1 where type_own1_out='Detached';
+sql="
+update h_housetmp set city_id=3;
+update h_housetmp set propertyType_id=1 where type_own1_out='Detached';
 update h_housetmp set propertyType_id=2 where type_own1_out='Townhouse' or type_own1_out='Att/Row/Twnhouse' or type_own1_out='Triplex'
  or type_own1_out='Fourplex' or type_own1_out='Multiplex';
 update h_housetmp set propertyType_id=4 where type_own1_out='Semi-Detached' or type_own1_out='Link' or type_own1_out='Duplex';
 update h_housetmp set propertyType_id=5 where type_own1_out='Cottage' or type_own1_out='Rural Resid';
 update h_housetmp set propertyType_id=6 where type_own1_out='Farm';
-update h_housetmp set propertyType_id=7 where type_own1_out='Vacant Land';"
+update h_housetmp set propertyType_id=7 where type_own1_out='Vacant Land';
+"
 
 `$sqlcmd -e "$sql"`
 
 echo "`date`: Complete Load Resi Data into Maple City" >>$mlslog
+
+#echo "`data`: load resi into local h_house table start">>$mlslog
 
 

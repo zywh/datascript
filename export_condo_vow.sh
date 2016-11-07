@@ -279,13 +279,9 @@ pic_num, apt_num, orig_dol, oh_date1, oh_from1, oh_to1, oh_date2, oh_from2, oh_t
 `$sqlcmd -e "$sql"`
 
 
-#update city_id
-echo "Update City_ID"
-sql="update h_housetmp set city_id=3 where county=\"Ontario\";"
-`$sqlcmd -e "$sql"`
-
-echo "Update property_type"
+echo "Update City_ID/Property_Type"
 sql="
+update h_housetmp set city_id=3 where county=\"Ontario\";
 update h_housetmp set propertytype_id=8 where propertytype_id='';
 update h_housetmp set propertyType_id=1 where type_own1_out='Detached';
 update h_housetmp set propertyType_id=2 where type_own1_out in ('Townhouse' ,'Att/Row/Twnhouse','Triplex','Fourplex','Multiplex');
@@ -294,23 +290,10 @@ update h_housetmp set propertyType_id=3 where type_own1_out like 'Co%';
 update h_housetmp set propertyType_id=5 where type_own1_out in ('Cottage','Rural Resid');
 update h_housetmp set propertyType_id=6 where type_own1_out='Farm';
 update h_housetmp set propertyType_id=7 where type_own1_out='Vacant Land';
-"
-
-`$sqlcmd -e "$sql"`
-
-echo "Update district_id"
-sql="
 update h_housetmp h join h_district d on h.area=d.englishName set h.district_id = d.id;
-"
-
-`$sqlcmd -e "$sql"`
-
-#Fix special char in community for school community search
-#Fix yr_built
-sql=" update h_housetmp set community = replace(community,\"'\",\"-\");
+update h_housetmp set community = replace(community,\"'\",\"-\");
 update h_housetmp set yr_built=\"6-15\" where yr_built=\"6-10\";
 update h_housetmp set yr_built=\"6-15\" where yr_built=\"11-15\";
-
 "
 `$sqlcmd -e "$sql"`
 
