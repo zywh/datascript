@@ -21,9 +21,10 @@ smalldirpic="$smalldir/$dirtmp"
 if   [ ! -f $smalldirpic ]
 then
 	#mkdir $smalldirpic
-	echo "Create TN PIC"
-	echo $smalldirpic
-	#convert -thumbnail 100 $line /tmp/thumbnail.tmp
+	dir=`echo $smalldirpic |sed 's/\(.*\)\/.*/\1/'` 
+        echo "Create TN PIC $dir"
+	mkdir $dir
+	convert -thumbnail 100 $line $smalldirpic
 	#convert -thumbnail 100 $line $smalldirpic/
 	#echo " install -D /tmp/thumbnail.tmp $smalldirpic"
 	#install -D /tmp/thumbnail.tmp $smalldirpic
@@ -33,8 +34,11 @@ middirpic="$middir/$dirtmp"
 echo $line |grep "1.jp"
 if [ $? -eq "0" ] &&   [ !  -f $middirpic ]
 then
-	echo "Create MID PIC"
-	echo $middirpic
+       	dir=`echo $middirpic |sed 's/\(.*\)\/.*/\1/'`
+        echo "Create MID PIC $dir"
+        mkdir $dir
+        convert -thumbnail 320 $line $middirpic
+
         #convert -thumbnail 320 $line /tmp/thumbnail.tmp
         #echo " install -D /tmp/thumbnail.tmp $middirpic"
         #install -D /tmp/thumbnail.tmp $middirpic
