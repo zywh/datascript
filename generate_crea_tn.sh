@@ -20,18 +20,24 @@ smalldirpic="$smalldir/$dirtmp"
 
 if   [ ! -f $smalldirpic ]
 then
-	convert -thumbnail 100 $line /tmp/thumbnail.tmp
-	echo " install -D /tmp/thumbnail.tmp $smalldirpic"
-	install -D /tmp/thumbnail.tmp $smalldirpic
+	#mkdir $smalldirpic
+	echo "Create TN PIC"
+	echo $smalldirpic
+	#convert -thumbnail 100 $line /tmp/thumbnail.tmp
+	#convert -thumbnail 100 $line $smalldirpic/
+	#echo " install -D /tmp/thumbnail.tmp $smalldirpic"
+	#install -D /tmp/thumbnail.tmp $smalldirpic
 fi
 
 middirpic="$middir/$dirtmp"
 echo $line |grep "1.jp"
 if [ $? -eq "0" ] &&   [ !  -f $middirpic ]
 then
-        convert -thumbnail 320 $line /tmp/thumbnail.tmp
-        echo " install -D /tmp/thumbnail.tmp $middirpic"
-        install -D /tmp/thumbnail.tmp $middirpic
+	echo "Create MID PIC"
+	echo $middirpic
+        #convert -thumbnail 320 $line /tmp/thumbnail.tmp
+        #echo " install -D /tmp/thumbnail.tmp $middirpic"
+        #install -D /tmp/thumbnail.tmp $middirpic
 
 fi
 
