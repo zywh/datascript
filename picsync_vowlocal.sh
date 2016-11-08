@@ -37,15 +37,15 @@ done
 cd /mls/tmp/picture
 echo "`date`: Incremental Picture Dir for SYNC-`ls |wc -l `" >>$mlslog
 tar cvf /tmp/pic.tar ./*
-
+exit 0
 
 echo "`date`: Start SCP Pic TAR to Remote Server" >>$mlslog
 scp /tmp/pic.tar dzheng@alinew:/var/www/html/mlspic/tmp/pic.tar 
 echo "`date`: Complete SCP Pic TAR to Remote Server" >>$mlslog
 
-#ssh dzheng@alinew "cd /var/www/html/mlspic/resi/picture;sudo tar xvf /tmp/pic.tar"
+ssh dzheng@alinew "cd /var/www/html/mlspic/resi/picture;sudo tar xvf /tmp/pic.tar"
 #Change to new folder to prepare CREA
-ssh dzheng@alinew "cd /var/www/html/mlspic/crea/Ontario;sudo tar xvf /var/www/html/mlspic/tmp/pic.tar"
+#ssh dzheng@alinew "cd /var/www/html/mlspic/crea/Ontario;sudo tar xvf /var/www/html/mlspic/tmp/pic.tar"
 
 echo "`date` : Picture SYNC is completed" >>$mlslog
 

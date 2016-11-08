@@ -9,7 +9,7 @@ $scriptdir/load_crea.sh
 $scriptdir/load_vow.sh
 
 echo "`date` : Start TREB picture cleanup" >>$mlslog
-$scriptdir/cleanpic.sh
+sudo $scriptdir/cleanpic.sh
 echo "`date` : End TREB picture cleanup" >>$mlslog
 
 #Update treb pic_num table
