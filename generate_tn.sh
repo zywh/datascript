@@ -13,11 +13,12 @@ function convert_thumbnail  {
 srcdir=$1
 cd $srcdir
 echo "scan $srcdir"
-find ./ |egrep "\-[1-3].jp" | while read line
+du -a|egrep "\-[1-3].jp"| while read line
+#find ./ |egrep "\-[1-3].jp" | while read line
 
 do
 #echo "convert $line /tmp/thumbnail.tmp"
-dirtmp=`echo $line |sed 's:\./::'`
+dirtmp=`echo $line |sed 's:.*\./::'`
 smalldirpic="$smalldir/$dirtmp"
 
 if   [ ! -f $smalldirpic ]
