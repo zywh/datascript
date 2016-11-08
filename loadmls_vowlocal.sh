@@ -76,8 +76,14 @@ load_idx="
 delete from idx_mls;
 LOAD DATA LOCAL INFILE '/tmp/idx.ml'  replace INTO TABLE idx_mls ;
 "
+load_idx_local="
+delete from idx_mls;
+LOAD DATA INFILE '/tmp/idx.ml'  replace INTO TABLE idx_mls ;
+"
+
 sqlcmd="mysql -u hdm106787551 -h  alinew -pMaplemYsql100 --local-infile  hdm106787551_db "
 `$sqlcmd -e "$load_idx"`
+/usr/bin/mysql -u root -p19701029 mls -e "$load_idx_local"
 
 
 
