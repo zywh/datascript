@@ -53,3 +53,4 @@ ssh dzheng@alinew "/home/dzheng/script/cleanpic.sh"
 echo "`date` : End picture cleanup" >>$mlslog
 
 
+$scriptdir/clone_h_housetmp.sh

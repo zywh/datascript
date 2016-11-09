@@ -38,4 +38,8 @@ lp_dol > 800000 AND lp_dol < 1200000 AND bath_tot > 3;
 #Update IDX house SRC flag
 update h_housetmp,idx_mls set h_housetmp.src="IDX" where h_housetmp.ml_num = idx_mls.ml_num;
 
+#stats
+
+insert into h_house_price_list select substr(zip,1,3),floor(avg(lp_dol)),count(*),date(now()) from h_housetmp group by substr(zip,1,3) ;
+
 
