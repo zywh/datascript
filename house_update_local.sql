@@ -40,6 +40,6 @@ update h_housetmp,idx_mls set h_housetmp.src="IDX" where h_housetmp.ml_num = idx
 
 #stats
 
-insert into h_house_price_list select substr(zip,1,3),floor(avg(lp_dol)),count(*),date(now()) from h_housetmp group by substr(zip,1,3) ;
+insert into h_house_price_hist select substr(zip,1,3),floor(avg(lp_dol)),count(*),date(now()) from h_housetmp group by substr(zip,1,3) ;
 
 
