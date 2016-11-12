@@ -22,6 +22,12 @@ condopic="/mls/treb"
 #mysql -u root -p19701029 -N -B mls -e 'select ml_num from vowresi where status="A"' >/tmp/mls_a
 #mysql -u root -p19701029 -N -B mls -e 'select ml_num from vowcondo where status="A"' >>/tmp/mls_a
 cat $homedir/vowcondo/data/avail.txt $homedir/vowresi/data/avail.txt >/tmp/mls_a
+count=`wc -l< /tmp/mls_a`
+if [ $count -lt 20000 ]
+then
+echo "record $count is low for cleanup"
+exit 4
+fi
 cp /tmp/mls_a /tmp/activemls
 ls $resipic | sed 's/Photo//'  >>/tmp/mls_a
 sort /tmp/mls_a |uniq -c|grep "1 "|awk '{print $2}' | while read line

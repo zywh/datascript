@@ -20,7 +20,7 @@ echo "`date`: End Download CREA Pic " >>$mlslog
 cd  /mls/crea
 tar cvf /mls/tmp/creapic.tar ./*
 echo "`date`: Start SCP CREA Pic " >>$mlslog
-scp /mls/tmp/creapic.tar dzheng@alinew:/var/www/html/mlspic/tmp
+#scp /mls/tmp/creapic.tar dzheng@alinew:/var/www/html/mlspic/tmp
 ssh dzheng@alinew "cd /var/www/html/mlspic/crea;sudo tar xvf /var/www/html/mlspic/tmp/creapic.tar"
 echo "`date`: End SCP and Untar  CREA Pic " >>$mlslog
 echo "`date`: Copy CREA pictures to /disks/crea  " >>$mlslog
