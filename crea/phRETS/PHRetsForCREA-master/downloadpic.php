@@ -10,7 +10,8 @@ $date = date('m/d/Y h:i:s a', time());
 $s = $date.":Start\n";
 file_put_contents($file, $s, FILE_APPEND | LOCK_EX);
 echo "Start List of Remote Crea Dir";
-shell_exec('ssh dzheng@alinew /home/dzheng/script/list_crea_pic.sh');
+#shell_exec('ssh dzheng@alinew /home/dzheng/script/list_crea_pic.sh');
+shell_exec('/home/ubuntu/script/list_crea_pic.sh');
 echo "End Get Remote Dir";
 
 
@@ -535,7 +536,8 @@ for($i = 0; $i < ceil($totalAvailable / $RETS_LimitPerQuery); $i++)
 			#echo "Start Single Family Picture Download\n";
 			 $ml_num = $listing["ListingID"];
 			 #$fprefix = "/var/www/html/mlspic/crea/";
-			 $fprefix = "/mls/crea/";
+			 #$fprefix = "/mls/crea/";
+			 $fprefix = "/disk2/crea/";
 			 if (isset($listing["Address"]["Province"])) {
 
 			 $l = $listing["Address"]["Province"];
@@ -547,7 +549,8 @@ for($i = 0; $i < ceil($totalAvailable / $RETS_LimitPerQuery); $i++)
 
                          //Check if folder exist. if yes skip to speed up download
                          //$mlsfolder = $folder."Photo".$ml_num;
-			$checkfolder = shell_exec('grep '.$ml_num.' /tmp/crearemotedir');
+			//$checkfolder = shell_exec('grep '.$ml_num.' /tmp/crearemotedir');
+			$checkfolder = shell_exec('grep '.$ml_num.' /tmp/creadir');
  
                         if (empty($checkfolder) ) {
 			 echo "$ID, $ml_num, $folder\n";
@@ -574,7 +577,7 @@ for($i = 0; $i < ceil($totalAvailable / $RETS_LimitPerQuery); $i++)
 
                          //Check if folder exist. if yes skip to speed up download
                         //$mlsfolder = $folder."Photo".$ml_num;
-                        $checkfolder = shell_exec('grep '.$ml_num.' /tmp/remotedir');
+                        $checkfolder = shell_exec('grep '.$ml_num.' /tmp/creadir');
 
                         if (empty($checkfolder) ) {
                          echo "$ID, $ml_num, $folder\n";
