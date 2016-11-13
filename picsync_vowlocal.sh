@@ -1,5 +1,6 @@
 #!/bin/sh
 
+exit 0
 mlslog="/home/ubuntu/log/mlslog.txt"
 rm -rf /mls/tmp/picture/*
 #remote="/var/www/html/mlspic/resi/picture"
@@ -37,7 +38,6 @@ done
 cd /mls/tmp/picture
 echo "`date`: Incremental Picture Dir for SYNC-`ls |wc -l `" >>$mlslog
 tar cvf /tmp/pic.tar ./*
-exit 0
 
 echo "`date`: Start SCP Pic TAR to Remote Server" >>$mlslog
 scp /tmp/pic.tar dzheng@alinew:/var/www/html/mlspic/tmp/pic.tar 

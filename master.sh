@@ -32,6 +32,11 @@ $scriptdir/generate_tn.sh
 echo "`date` : End  Thumbnail and  CDN Sync " >>$mlslog
 
 
+echo "`date` : Start CREA Thumbnail" >>$mlslog
+$scriptdir/generate_crea_tn.sh
+echo "`date` : End  CREA Thumbnail " >>$mlslog
+
+
 
 #export CSV and load into MapleCity
 $scriptdir/export_resi_vow.sh
@@ -43,7 +48,7 @@ echo "`date` : Maplecity Condo DB load is completed" >>$mlslog
 
 
 #sync vow picture
-$scriptdir/picsync_vowlocal.sh
+#$scriptdir/picsync_vowlocal.sh
 #
 
 
