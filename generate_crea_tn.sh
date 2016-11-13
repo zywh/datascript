@@ -20,7 +20,7 @@ do
 dirtmp=`echo $line |sed 's:.*\./::'`
 echo "dirtmp $dirtmp"
 smalldirpic="$smalldir/$dirtmp"
-echo "smalldirpci $smalldirpic"
+echo "smalldir $smalldirpic"
 
 if   [ ! -f $smalldirpic ]
 then
@@ -28,10 +28,10 @@ then
 	dir=`echo $smalldirpic |sed 's/\(.*\)\/.*/\1/'` 
         echo "Create TN PIC $dir"
 	mkdir $dir
-	convert -thumbnail 100 $line $smalldirpic
 	#convert -thumbnail 100 $line $smalldirpic/
 	#echo " install -D /tmp/thumbnail.tmp $smalldirpic"
 	#install -D /tmp/thumbnail.tmp $smalldirpic
+	convert -thumbnail 100 $line $smalldirpic
 fi
 
 middirpic="$middir/$dirtmp"

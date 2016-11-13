@@ -42,6 +42,6 @@ sudo chown mysql:mysql $sqlfile
 #sqlcmd="mysql -u hdm106787551 -h  alinew -pMaplemYsql100 --local-infile  hdm106787551_db "
 loadsql="LOAD DATA INFILE '"$sqlfile"'  replace INTO TABLE pic_num   FIELDS TERMINATED BY ',' ;"
 
-/usr/bin/mysql -u root -p19701029 mls -e "$loadsql"
+#/usr/bin/mysql -u root -p19701029 mls -e "$loadsql"
 
 
