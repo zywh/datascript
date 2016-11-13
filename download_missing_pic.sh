@@ -3,8 +3,6 @@
 ########################
 #Global  Parameter
 homedir="/mls/172.30.0.108"
-residata="$homedir/resi/data/data.txt"
-condodata="$homedir/condo/data/data.txt"
 trebpicdir="/mls/treb"
 #################################
 rm /tmp/treb_download_list
