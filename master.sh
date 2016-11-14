@@ -54,8 +54,9 @@ echo "`date` : Maplecity Condo DB load is completed" >>$mlslog
 
 
 echo "`date` : Start picture cleanup" >>$mlslog
-ssh dzheng@alinew "/home/dzheng/script/cleanpic.sh"
+#ssh dzheng@alinew "/home/dzheng/script/cleanpic.sh"
 echo "`date` : End picture cleanup" >>$mlslog
 
 
+#Generate local house table and sync to google VM
 $scriptdir/clone_h_housetmp.sh
