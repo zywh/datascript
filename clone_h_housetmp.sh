@@ -95,4 +95,8 @@ echo "`date` End SQL Local CREA House Update" >>$mlslog
 
 `$sqlcmd  <$scriptdir/house_update_local.sql`
 
-
+#export house table for clouse server
+echo "`date`:  Start Sync h_house table to Google server" >>$mlslog
+mysqldump -u root -p19701029 mls h_housetmp | gzip >/tmp/current_housetmp.sql.gz
+ssh g1 "/home/ubuntu/script/restore_table.sh"
+echo "`date`:  End Sync h_house table to Google server" >>$mlslog
