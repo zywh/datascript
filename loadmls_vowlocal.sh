@@ -106,7 +106,6 @@ then
 	do
 	sql="delete from vowresi where ml_num='$line'"
 	echo "$sql"
-	exit 0
 	mysql -u root -p19701029 -N -B mls -e "$sql"
 
 	done

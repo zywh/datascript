@@ -8,6 +8,9 @@ $scriptdir/load_crea.sh
 #Download vow data/picture and idx ml_num
 $scriptdir/load_vow.sh
 
+#Local VOW data into local resi and condo table
+$scriptdir/loadmls_vowlocal.sh
+
 echo "`date` : Start TREB picture cleanup" >>$mlslog
 sudo $scriptdir/cleanpic.sh
 echo "`date` : End TREB picture cleanup" >>$mlslog
@@ -16,9 +19,6 @@ echo "`date` : End TREB picture cleanup" >>$mlslog
 echo "`date` : Start Collect TREB Picture Count " >>$mlslog
 $scriptdir/count_pic_num.sh
 echo "`date` : End Treb Pic Count Update " >>$mlslog
-
-#Local VOW data into local resi and condo table
-$scriptdir/loadmls_vowlocal.sh
 
 #sync vow pic to CDN
 echo "`date` : Start VOW Pic CDN Sync " >>$mlslog
