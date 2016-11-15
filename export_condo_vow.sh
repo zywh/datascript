@@ -227,10 +227,10 @@ taxes	,
 type_own1_out	,
 tour_url	,
 bath_tot	
-FROM vowcondo,location,pic_num
+FROM vowcondo
+left join location on vowcondo.ml_num = location.ml_num
+left join pic_num  on vowcondo.ml_num = pic_num.ml_num
 WHERE vowcondo.county ='Ontario' AND vowcondo.ml_num REGEXP '[a-z][0-9].*' 
-AND vowcondo.ml_num = location.ml_num 
-AND vowcondo.ml_num = pic_num.ml_num 
 INTO OUTFILE '/tmp/condo.csv'
 FIELDS TERMINATED BY '|'
 LINES TERMINATED BY '\n';

@@ -233,6 +233,7 @@ LINES TERMINATED BY '\n';
 sudo rm /tmp/resi.csv*
 echo "Export MLS Table for MaplyCity H_house"
 /usr/bin/mysql -u root -p19701029 mls -e "$exportresi"
+exit 0
 echo "`date`: Resi Date for Import - `wc -l /tmp/resi.csv`" >>$mlslog
 
 
