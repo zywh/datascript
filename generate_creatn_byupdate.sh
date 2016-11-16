@@ -12,25 +12,24 @@ function convert_thumbnail  {
 prov=$2
 mlsp="Photo$1"
 srcdir="/disk2/crea/$prov/$mlsp"
-echo $srcdir
-ls $srcdir| egrep "\-[1-3].jp"| while read line
-do
 smalldirp="$smalldir/$prov/$mlsp"
 middirp="$middir/$prov/$mlsp"
-file=$line
-echo "Target file $smalldirp/$file"
-echo "Target file $middirp/$file"
+ls $srcdir| egrep "\-[1-3].jp"| while read line
+do
+#echo $line
+#echo "Target file $smalldirp/$line"
+#echo "Target file $middirp/$line"
 #echo $fullfile, $middirp
 #dirtmp=`echo $line |sed 's:.*\./::'`
 #smalldirpic="$smalldir/$dirtmp"
-
+srcfile="$srcdir/$line"
 if   [ ! -d $smalldirp ]
 then
         echo "Create TN PIC  $smalldirp"
 	mkdir  $smalldirp 
-	fullfile="$smalldirp/$file"
-	echo "convert -thumbnail 100 $line $fullfile"
-	#convert -thumbnail 100 $line $fullfile
+	fullfile="$smalldirp/$line"
+	echo "convert -thumbnail 100 $srcfile $fullfile"
+	convert -thumbnail 100 $srcfile $fullfile
 fi
 
 echo $line |grep "1.jp"
@@ -39,8 +38,8 @@ then
         echo "Create MID PIC $middirp"
         mkdir $middirp
 	fullfile="$middirp/$file"
-	echo "convert -thumbnail 100 $line $fullfile"
-        #convert -thumbnail 320 $line $fullfile
+	echo "convert -thumbnail 100 $srcfile $fullfile"
+        convert -thumbnail 320 $srcfile $fullfile
 
 fi
 
