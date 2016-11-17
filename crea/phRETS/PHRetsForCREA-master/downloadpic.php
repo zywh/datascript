@@ -14,6 +14,7 @@ echo "Start List of Remote Crea Dir";
 shell_exec('/home/ubuntu/script/list_crea_pic.sh');
 echo "End Get Remote Dir";
 
+$dowloadList = fopen("/tmp/creapicdownload.txt", "w") or die("Unable to open file!");
 
 // Initially, you should set this to something like "-2 years". Once you have all day, change this to "-48 hours" or so to pull incremental data
 //$TimeBackPull = "-2 years";
@@ -428,7 +429,7 @@ function resi($listing)
 
 function downloadPhotos($listingID,$folder,$ml_num)
 {
-	global $RETS, $RETS_PhotoSize, $debugMode;
+	global $RETS, $RETS_PhotoSize, $debugMode,$downloadList;
 	
 	//if(!$downloadPhotos)
 	//{
@@ -466,7 +467,11 @@ function downloadPhotos($listingID,$folder,$ml_num)
 			$photofolder = $folder."Photo".$ml_num;
 			if (!is_dir($photofolder)) {
 				// dir doesn't exist, make it
+				echo "Create Folder $photofolder\n";
 				mkdir($photofolder);
+				$s = $photofolder."\n";
+				
+				fwrite($downloadList, $s);
 			}
 
 			$destination = "Photo".$ml_num."-".$number.".jpg";
@@ -616,4 +621,5 @@ Connecting to RETS as '[YOUR RETS USERNAME]'...
 $date = date('m/d/Y h:i:s a', time());
 $s = $date.":Complete\n";
 file_put_contents($file, $s, FILE_APPEND | LOCK_EX);
+fclose($downloadList);
 ?>
