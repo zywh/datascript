@@ -21,30 +21,20 @@ dir=`echo $line |sed 's/\.\/\(.*\)\/.*/\1/'`
 smalldirp="$smalldir/$prov/$dir"
 middirp="$middir/$prov/$dir"
 file=`echo $line |sed 's/.*\///'`
-#echo $fullfile, $middirp
-#dirtmp=`echo $line |sed 's:.*\./::'`
-#smalldirpic="$smalldir/$dirtmp"
 
-if   [ ! -d $smalldirp ]
+fullfile="$smalldirp/$file"
+if [ ! -f $fullfile ]
 then
-	#mkdir $smalldirpic
-        echo "Create TN PIC  $smalldirp"
 	mkdir  $smalldirp 
-	#convert -thumbnail 100 $line $smalldirpic/
-	#echo " install -D /tmp/thumbnail.tmp $smalldirpic"
-	#install -D /tmp/thumbnail.tmp $smalldirpic
-	fullfile="$smalldirp/$file"
 	echo "convert -thumbnail 100 $line $fullfile"
 	convert -thumbnail 100 $line $fullfile
 fi
 
-#middirpic="$middir/$dirtmp"
+fullfile="$middirp/$file"
 echo $line |grep "1.jp"
-if [ $? -eq "0" ] &&   [ !  -d $middirp ]
+if [ $? -eq "0" ] &&   [ !  -f $fullfile ]
 then
-        echo "Create MID PIC $middirp"
         mkdir $middirp
-	fullfile="$middirp/$file"
 	echo "convert -thumbnail 100 $line $fullfile"
         convert -thumbnail 320 $line $fullfile
 
