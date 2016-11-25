@@ -37,7 +37,7 @@ if [ $? -eq "0" ] &&   [ !  -d $middirp ]
 then
         echo "Create MID PIC $middirp"
         mkdir $middirp
-	fullfile="$middirp/$file"
+	fullfile="$middirp/$line"
 	echo "convert -thumbnail 100 $srcfile $fullfile"
         convert -thumbnail 320 $srcfile $fullfile
 
