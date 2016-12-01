@@ -1,13 +1,13 @@
 #!/bin/sh
 
 mlslog="/home/ubuntu/log/mlslog.txt"
-rm -rf /mls/crea/Ontario/*
-rm -rf /mls/crea/Alberta/*
-rm -rf /mls/crea/NovaScotia/*
-rm -rf /mls/crea/NewfoundlandLabrador/*
-rm -rf /mls/crea/NewBrunswick/*
-rm -rf /mls/crea/BritishColumbia/*
-rm -rf /mls/crea/PrinceEdwardIsland/*
+#rm -rf /mls/crea/Ontario/*
+#rm -rf /mls/crea/Alberta/*
+#rm -rf /mls/crea/NovaScotia/*
+#rm -rf /mls/crea/NewfoundlandLabrador/*
+#rm -rf /mls/crea/NewBrunswick/*
+#rm -rf /mls/crea/BritishColumbia/*
+#rm -rf /mls/crea/PrinceEdwardIsland/*
 
 remote="/var/www/html/mlspic/crea/"
 echo "`date`: Start Download CREA Pic " >>$mlslog
@@ -27,6 +27,6 @@ echo "`date`: End Download CREA Pic " >>$mlslog
 #cd /mls/crea
 #sudo  cp -r ./* /disk2/crea/
 
-echo "`date`: Start CREA count for pic_num " >>$mlslog
-/home/ubuntu/script/count_crea_pic_num.sh
-echo "`date`: End CREA count for pic_num " >>$mlslog
+#echo "`date`: Start CREA count for pic_num " >>$mlslog
+#/home/ubuntu/script/count_crea_pic_num.sh
+#echo "`date`: End CREA count for pic_num " >>$mlslog

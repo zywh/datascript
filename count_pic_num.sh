@@ -2,6 +2,8 @@
 
 treb_count_sql="/tmp/treb_pic_num.txt"
 crea_count_sql="/tmp/crea_pic_num.txt"
+#get crea pic count
+/home/ubuntu/script/count_crea_pic_num.sh
 cd /mls/treb
 sudo rm $treb_count_sql
 du -a |grep jpeg| cut -d/ -f2 | uniq -c >/tmp/treb_pic_count.raw

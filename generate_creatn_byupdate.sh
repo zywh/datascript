@@ -6,6 +6,16 @@ middir="/disk2/creamid"
 logfile="/home/ubuntu/log/generatepic.log"
 
 echo "`date` :Start Generate CREA thumbnail" >> $logfile
+sql="
+select concat(replace(replace(county,' ',''),'&',''),'/Photo',ml_num) 
+from crea
+INTO OUTFILE '/tmp/active_crea4tn.csv'
+
+"
+echo "export crea list into tmp file"
+#sudo rm /tmp/active_crea4tn.csv
+#/usr/bin/mysql -u root -p19701029 mls -e "$sql"
+
 
 
 function convert_thumbnail  {
