@@ -4,77 +4,89 @@ creafile="/tmp/crea.update"
 smalldir="/disk2/creatn"
 middir="/disk2/creamid"
 logfile="/home/ubuntu/log/generatepic.log"
+crea_active="/tmp/active_crea4tn.csv";
+current_mid="/tmp/current_mid.txt"
 
 #get list of active crea
 echo "`date` :Start Generate CREA thumbnail" >> $logfile
 sql="
 select concat(replace(replace(county,' ',''),'&',''),'/Photo',ml_num) 
 from crea
-INTO OUTFILE '/tmp/active_crea4tn.csv'
+INTO OUTFILE '$crea_active'
 
 "
 echo "export crea list into tmp file"
-sudo rm /tmp/active_crea4tn.csv
+sudo rm $crea_active
 /usr/bin/mysql -u root -p19701029 mls -e "$sql"
 
 #get list of current mid files
 
 
+function scan_pic  {
+province=$1
+cd $middir/$province
+echo "$middir/$province"
 
-#output file /tmp/creamid_list
+du -a |grep "1\.jpg" | sed 's/.*Photo\(.*\)-1.jpg/\1/' |while read line
+do
+echo "$province/Photo$line"
+done >>$current_mid
+}
+
+
+sudo rm $current_mid
+scan_pic  Ontario "Ontario"
+scan_pic  BritishColumbia "British Columbia"
+scan_pic  Alberta "Alberta"
+scan_pic  NewfoundlandLabrador 'Newfoundland & Labrador'
+scan_pic  PrinceEdwardIsland 'Prince Edward Island'
+scan_pic  NewBrunswick 'New Brunswick'
+scan_pic  NovaScotia 'Nova Scotia'
+
 
 #check if active crea in mid list of not
 
 
 
 function convert_thumbnail  {
-prov=$2
-mlsp="Photo$1"
-srcdir="/disk2/crea/$prov/$mlsp"
-smalldirp="$smalldir/$prov/$mlsp"
-middirp="$middir/$prov/$mlsp"
-ls $srcdir| egrep "\-[1-3].jp"| while read line
-do
-#echo $line
-#echo "Target file $smalldirp/$line"
-#echo "Target file $middirp/$line"
-#echo $fullfile, $middirp
-#dirtmp=`echo $line |sed 's:.*\./::'`
-#smalldirpic="$smalldir/$dirtmp"
-srcfile="$srcdir/$line"
-if   [ ! -d $smalldirp ]
-then
-        echo "Create TN PIC  $smalldirp"
-	mkdir  $smalldirp 
-	fullfile="$smalldirp/$line"
-	echo "convert -thumbnail 100 $srcfile $fullfile"
-	convert -thumbnail 100 $srcfile $fullfile
-fi
+mls=`echo $1 |sed 's/.*Photo//'`
+srcfile1="$srcdir/$1/Photo$mls-1.jpg"
+srcfile2="$srcdir/$1/Photo$mls-2.jpg"
+srcfile3="$srcdir/$1/Photo$mls-3.jpg"
+midfile="$middir/$1/Photo$mls-1.jpg"
+tn1="$smalldir/$1/Photo$mls-1.jpg"
+tn2="$smalldir/$1/Photo$mls-2.jpg"
+tn3="$smalldir/$1/Photo$mls-3.jpg"
 
-echo $line |grep "1.jp"
-if [ $? -eq "0" ] &&   [ !  -d $middirp ]
-then
-        echo "Create MID PIC $middirp"
-        mkdir $middirp
-	fullfile="$middirp/$line"
-	echo "convert -thumbnail 100 $srcfile $fullfile"
-        convert -thumbnail 320 $srcfile $fullfile
+echo "convert -thumbnail 320 $srcfile1 $midfile"
+#convert -thumbnail 320 $srcfile1 $midfile
 
-fi
+echo "convert -thumbnail 100 $srcfile1 $tn1"
+#convert -thumbnail 100 $srcfile1 $tn1
+echo "convert -thumbnail 100 $srcfile2 $tn2"
+#convert -thumbnail 100 $srcfile2 $tn2
+echo "convert -thumbnail 100 $srcfile3 $tn3"
+#convert -thumbnail 100 $srcfile3 $tn3
 
-#Generate medium size pic
-
-done
 
 }
 
-awk -F"|" '{print $3"|"$67}' $creafile|sed 's/[ &]//g'|sed 's/|/ /' | while read line
+cat $crea_active | while read line
 do
-set $line
-convert_thumbnail $1 $2
+
+grep $line $current_mid
+if [ $? -ne "0" ] 
+then
+	srcfolder="$srcdir/$line"
+	if [ -d $srcfolder ]
+	then
+		convert_thumbnail $line 
+	fi
+
+fi
 
 done
 
-echo "`date` :End Generate thumbnail" >> $logfile
+#echo "`date` :End Generate thumbnail" >> $logfile
 
 
