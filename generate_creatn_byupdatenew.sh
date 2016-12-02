@@ -21,6 +21,8 @@ sudo rm /tmp/active_crea4tn.csv
 
 
 
+#output file /tmp/creamid_list
+
 #check if active crea in mid list of not
 
 
