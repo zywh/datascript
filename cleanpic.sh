@@ -23,7 +23,7 @@ condopic="/mls/treb"
 #mysql -u root -p19701029 -N -B mls -e 'select ml_num from vowcondo where status="A"' >>/tmp/mls_a
 cat $homedir/vowcondo/data/avail.txt $homedir/vowresi/data/avail.txt >/tmp/mls_a
 count=`wc -l< /tmp/mls_a`
-if [ $count -lt 20000 ]
+if [ $count -lt 19000 ]
 then
 echo "record $count is low for cleanup"
 exit 4
