@@ -34,7 +34,8 @@ echo "`date` : End  Thumbnail and  CDN Sync " >>$mlslog
 
 echo "`date` : Start CREA Thumbnail" >>$mlslog
 #$scriptdir/generate_crea_tn.sh
-$scriptdir/generate_creatn_byupdate.sh
+#$scriptdir/generate_creatn_byupdate.sh
+$scriptdir/generate_creatn_byupdatenew.sh
 echo "`date` : End  CREA Thumbnail " >>$mlslog
 
 
