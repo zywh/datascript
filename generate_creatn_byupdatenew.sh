@@ -59,14 +59,14 @@ tn2="$smalldir/$1/Photo$mls-2.jpg"
 tn3="$smalldir/$1/Photo$mls-3.jpg"
 
 echo "convert -thumbnail 320 $srcfile1 $midfile"
-#convert -thumbnail 320 $srcfile1 $midfile
+convert -thumbnail 320 $srcfile1 $midfile
 
 echo "convert -thumbnail 100 $srcfile1 $tn1"
-#convert -thumbnail 100 $srcfile1 $tn1
+convert -thumbnail 100 $srcfile1 $tn1
 echo "convert -thumbnail 100 $srcfile2 $tn2"
-#convert -thumbnail 100 $srcfile2 $tn2
+convert -thumbnail 100 $srcfile2 $tn2
 echo "convert -thumbnail 100 $srcfile3 $tn3"
-#convert -thumbnail 100 $srcfile3 $tn3
+convert -thumbnail 100 $srcfile3 $tn3
 
 
 }
@@ -74,12 +74,15 @@ echo "convert -thumbnail 100 $srcfile3 $tn3"
 cat $crea_active | while read line
 do
 
-grep $line $current_mid
+grep -q $line $current_mid
 if [ $? -ne "0" ] 
 then
 	srcfolder="$srcdir/$line"
 	if [ -d $srcfolder ]
 	then
+	mkdir $middir/$line
+	mkdir $smalldir/$line
+
 		convert_thumbnail $line 
 	fi
 
