@@ -21,10 +21,10 @@ $scriptdir/count_pic_num.sh
 echo "`date` : End Treb Pic Count Update " >>$mlslog
 
 #sync vow pic to CDN
-echo "`date` : Start VOW Pic CDN Sync " >>$mlslog
-cd /mls/treb
-rsync -e "ssh -i /home/ubuntu/.ssh/id_rsa" -va --delete ./ user_fzuh930p@push-24.cdn77.com:/www/treb
-echo "`date` : End VOW Pic CDN Sync" >>$mlslog
+#echo "`date` : Start VOW Pic CDN Sync " >>$mlslog
+#cd /mls/treb
+#rsync -e "ssh -i /home/ubuntu/.ssh/id_rsa" -va --delete ./ user_fzuh930p@push-24.cdn77.com:/www/treb
+#echo "`date` : End VOW Pic CDN Sync" >>$mlslog
 
 #generate TN and MID size pic and sync to CDN
 echo "`date` : Start Thumbnail  and CDN Sync " >>$mlslog
