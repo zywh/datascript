@@ -236,7 +236,6 @@ echo "Export MLS Table for MaplyCity H_house"
 echo "`date`: Resi Date for Import - `wc -l /tmp/resi.csv`" >>$mlslog
 
 
-sqlcmd="mysql -u hdm106787551 -h  alinew -pMaplemYsql100 --local-infile  hdm106787551_db "
 sql="create table h_housetmp like h_house;"
 `$sqlcmd -e "$sql"`
 

@@ -344,7 +344,7 @@ echo "`date` SSH Copy CREA Export into Maplecity DB $count" >>$mlslog
 sudo cp /tmp/crea_house.csv /tmp/crea_house.csv.today
 sudo rm /tmp/crea_house.csv.gz
 sudo gzip  /tmp/crea_house.csv
-scp /tmp/crea_house.csv.gz dzheng@alinew:/tmp/crea.csv.gz
+#scp /tmp/crea_house.csv.gz dzheng@alinew:/tmp/crea.csv.gz
 
 #echo "`date` Start Load CREA Export into Maplecity DB $count" >>$mlslog
 #`$sqlcmd -e "$sql"`
