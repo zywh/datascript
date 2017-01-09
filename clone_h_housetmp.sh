@@ -93,8 +93,13 @@ sudo chown mysql:mysql $creacsv
 `$sqlcmd -e "$sql"`
 echo "`date` End SQL Local CREA House Update" >>$mlslog
 
+if [ "$1" -eq 1 ]
+then
+`$sqlcmd  <$scriptdir/house_update_local_incremental.sql`
+else
 `$sqlcmd  <$scriptdir/house_update_local.sql`
 
+fi
 #export house table for clouse server
 echo "`date`:  Start Sync h_house table to Google server" >>$mlslog
 mysqldump -u root -p19701029 mls h_housetmp | gzip >/tmp/current_housetmp.sql.gz

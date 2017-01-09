@@ -34,7 +34,7 @@ $scriptdir/loadmls_vowlocal_incremental.sh
 #export CSV and load into MapleCity
 $scriptdir/export_resi_vow.sh
 echo "`date` : Maplecity Resi DB load is completed" >>$mlslog
-$scriptdir/export_condo_vow.sh
+$scriptdir/export_condo_vow.sh 
 echo "`date` : Maplecity Condo DB load is completed" >>$mlslog
 
 
@@ -45,4 +45,4 @@ echo "`date` : Maplecity Condo DB load is completed" >>$mlslog
 #
 
 #Generate local house table and sync to google VM
-$scriptdir/clone_h_housetmp.sh
+$scriptdir/clone_h_housetmp.sh 1
