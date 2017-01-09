@@ -23,6 +23,11 @@ update h_housetmp set city_id='100'  where city_id is NULL;
 
 
 
+#Update IDX house SRC flag
+update h_housetmp,idx_mls set h_housetmp.src="IDX" where h_housetmp.ml_num = idx_mls.ml_num;
+
+
+
 
 
 
