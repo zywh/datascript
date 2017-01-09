@@ -62,15 +62,20 @@ function compare_crea_active {
 echo "Compare active ID with list in crea table"
 tmpfile="/tmp/crea_mls"
 sudo rm /tmp/crea.delete
+sudo rm /tmp/crea.backup
 if [ -s $active ]
 then
         echo "Reconsile CREA Active with CREA Table"
         mysql -u root -p19701029 -N -B mls -e 'select id from crea' > $tmpfile
-		cat $active >> $tmpfile
+	cat $active >> $tmpfile
         sort $tmpfile |uniq -c|grep "1 "|awk '{print $2}' | while read line
         do
         echo "delete from crea where id='$line';" >> /tmp/crea.delete
+        echo "insert into crea_hist select *,now() from crea where id='$line';" >> /tmp/crea.backup
         done
+	#backup inactive record
+	`$sqlcmd </tmp/crea.backup`
+	#delete inactive record
 	echo "Delete inactive listing from crea table...."	
 	`$sqlcmd </tmp/crea.delete`
 	count=`wc -l /tmp/crea.delete`

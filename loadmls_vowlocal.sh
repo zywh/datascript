@@ -104,8 +104,11 @@ then
 	cat $homedir/vowresi/data/avail.txt >>/tmp/resi_mls
 	sort /tmp/resi_mls |uniq -c|grep "1 "|awk '{print $2}' | while read line
 	do
+	#backup data
+	sql="insert into vowresi_hist select *,now() from vowresi where ml_num='$line'"
+	mysql -u root -p19701029 -N -B mls -e "$sql"
+	#delete inactive record
 	sql="delete from vowresi where ml_num='$line'"
-	echo "$sql"
 	mysql -u root -p19701029 -N -B mls -e "$sql"
 
 	done
@@ -124,9 +127,12 @@ then
 	cat $homedir/vowcondo/data/avail.txt >>/tmp/condo_mls
 	sort /tmp/condo_mls |uniq -c|grep "1 "|awk '{print $2}'| while read line
 	do
+	sql="insert into vowcondo select *,now() from vowcondo where ml_num='$line'"
+	mysql -u root -p19701029 -N -B mls -e "$sql"
+
         sql="delete from vowcondo where ml_num='$line'"
-        #echo "Set  $line as unavailable"
         mysql -u root -p19701029 -N -B mls -e "$sql"
+
 
 
 	done
