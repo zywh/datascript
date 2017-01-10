@@ -127,7 +127,7 @@ then
 	cat $homedir/vowcondo/data/avail.txt >>/tmp/condo_mls
 	sort /tmp/condo_mls |uniq -c|grep "1 "|awk '{print $2}'| while read line
 	do
-	sql="insert into vowcondo select *,now() from vowcondo where ml_num='$line'"
+	sql="insert into vowcondo_hist select *,now() from vowcondo where ml_num='$line'"
 	mysql -u root -p19701029 -N -B mls -e "$sql"
 
         sql="delete from vowcondo where ml_num='$line'"

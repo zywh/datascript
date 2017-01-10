@@ -10,7 +10,7 @@ $rets_login_url = "http://rets.torontomls.net:6103/rets-treb3pv/server/login";
 $rets_username = "V16yzh";
 $rets_password = "Ap$3778";
 
-$id='W3660394';
+$id='N3605470';
 
 
 
@@ -23,7 +23,7 @@ $previous_start_time = date('Y-m-d', strtotime($TimeBackPull));
 $query = "(ml_num={$id})";
 
 
-echo "$query\n";
+#echo "$query\n";
 
 // start rets connection
 $rets = new phRETS;
@@ -83,7 +83,7 @@ foreach ($property_classes as $class) {
         $fh = fopen($file_name, "w+");
 
         $maxrows = true;
-        $offset = 1;
+        $offset = 0;
         $limit = 1000000;
 
         $fields_order = array();
@@ -93,6 +93,7 @@ foreach ($property_classes as $class) {
 	$search = $rets->SearchQuery("Property", $class, $query, array('Limit' => $limit, 'Offset' => $offset, 'Format' => 'COMPACT-DECODED', 'Count' => 1));
 
 	$count = $rets->TotalRecordsFound();
+	echo $count;
 		
 	 if ($rets->NumRows() > 0) {
 
