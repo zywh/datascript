@@ -60,7 +60,7 @@ FIELDS TERMINATED BY '|'
 
 loadpiccount="
 LOAD DATA INFILE '/tmp/treb_pic_count.tmp'
-replace INTO TABLE idx_mls
+replace INTO TABLE pic_num
 "
 /usr/bin/mysql -u root -p19701029 mls -e "$loadcondo"
 /usr/bin/mysql -u root -p19701029 mls -e "$loadresi"
