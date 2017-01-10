@@ -13,9 +13,10 @@ sudo php  download_vow_data.php
 echo "`date`: End dowload VOW Data and Pictures" >>$mlslog
 
 
+#generate TREB TN and MID
+$scriptdir/generate_tn_incremental.sh
 
 #Local VOW data into local resi and condo table
-#$scriptdir/loadmls_vowlocal.sh
 $scriptdir/loadmls_vowlocal_incremental.sh
 
 

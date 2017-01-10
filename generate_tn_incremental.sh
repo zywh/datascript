@@ -20,7 +20,7 @@ ls|egrep "\-[1-3].jp"| while read line
 do
 #echo "convert $line /tmp/thumbnail.tmp"
 dirtmp="Photo$id"
-smalldirpic="$smalldir/$dirtmp"
+smalldirpic="$smalldir/$dirtmp/$line"
 
 if   [ ! -f $smalldirpic ]
 then
@@ -29,7 +29,7 @@ then
 	install -D /tmp/thumbnail.tmp $smalldirpic
 fi
 
-middirpic="$middir/$dirtmp"
+middirpic="$middir/$dirtmp/$line"
 echo $line |grep "1.jp"
 if [ $? -eq "0" ] &&   [ !  -f $middirpic ]
 then
