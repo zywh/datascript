@@ -4,6 +4,11 @@ $homedir="/mls/172.30.0.108/";
 $pichome="/mls/treb/";
 $vowresidata = $homedir."vowresi/data/data.txt";
 $vowcondodata= $homedir."vowcondo/data/data.txt";
+$piclist="/tmp/treb_pic_count.tmp";
+
+if (file_exists($piclist)) {
+	unlink($piclist);
+} 
 
 require_once("phrets.php");
 $rets_login_url = "http://rets.torontomls.net:6103/rets-treb3pv/server/login";
@@ -38,12 +43,15 @@ else {
 
 
 function downloadpic($type,$id) {
-global $rets,$homedir,$pichome;
+global $rets,$homedir,$pichome,$fpic;
 $photos = $rets->GetObject("Property", "Photo", $id);
 $photofolder = $pichome."Photo".$id;
 //$photofolder = $homedir.$type."/picture/Photo".$id;
 
-echo count($photos);
+$count=count($photos);
+$s_piclist="$id".","."$count"."\n";
+echo "fwrite $s_piclist\n";
+fwrite($fpic,$s_piclist);
 
 
 
@@ -62,6 +70,9 @@ foreach ($photos as $photo) {
 
 }
 
+#open piclist file
+echo "Open file $piclist \n";
+$fpic = fopen($piclist, "w+");
 
 foreach ($property_classes as $class) {
 
@@ -132,4 +143,5 @@ foreach ($property_classes as $class) {
 echo "Disconnecting\n";
 $rets->Disconnect();
 
+        fclose($fpic);
 ?>
