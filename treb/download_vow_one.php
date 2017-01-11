@@ -80,10 +80,10 @@ foreach ($property_classes as $class) {
         	$file_name = $vowcondodata;
 	}
 
-        $fh = fopen($file_name, "w+");
+        //$fh = fopen($file_name, "w+");
 
         $maxrows = true;
-        $offset = 0;
+        $offset = 1;
         $limit = 1000000;
 
         $fields_order = array();
@@ -111,7 +111,7 @@ foreach ($property_classes as $class) {
                                         $this_record[] = $record[$fo];
 					echo $record[$fo]."|";
                                 }
-                                fputcsv($fh, $this_record,"|");
+                                //fputcsv($fh, $this_record,"|");
 				
                         }
 		 $offset = ($offset + $rets->NumRows());
@@ -123,7 +123,7 @@ foreach ($property_classes as $class) {
         echo "Total found: {$rets->TotalRecordsFound()}, $offset\n";
         $rets->FreeResult($search);
 }
-        fclose($fh);
+        //fclose($fh);
         echo "done\n";
 
 }
