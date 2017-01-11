@@ -5,8 +5,8 @@ treb_srcdir='/mls/treb'
 smalldir="/mls/trebtn"
 middir="/mls/trebmid"
 logfile="/home/ubuntu/log/generatepic.log"
-#piccount="/tmp/treb_pic_count.tmp"
-piccount="/tmp/test1"
+piccount="/tmp/treb_pic_count.tmp"
+#piccount="/tmp/test.tmp"
 
 echo "`date` :Start Generate Incremental TREB thumbnail" >> $logfile
 
@@ -55,11 +55,11 @@ done
 echo "`date` :End Generate thumbnail" >> $logfile
 
 cd $smalldir
-#rsync -e "ssh -i /home/ubuntu/.ssh/id_rsa" -va --delete ./ user_fzuh930p@push-24.cdn77.com:/www/trebtn/
+rsync -e "ssh -i /home/ubuntu/.ssh/id_rsa" -va --delete ./ user_fzuh930p@push-24.cdn77.com:/www/trebtn/
 echo "`date` :End RSYNC CDN thumbnail" >> $logfile
 
 cd $middir
-#rsync -e "ssh -i /home/ubuntu/.ssh/id_rsa" -va --delete ./ user_fzuh930p@push-24.cdn77.com:/www/trebmid/
+rsync -e "ssh -i /home/ubuntu/.ssh/id_rsa" -va --delete ./ user_fzuh930p@push-24.cdn77.com:/www/trebmid/
 
 echo "`date` :End RSYNC CDN Mid Size Picture" >> $logfile
 
