@@ -2,10 +2,10 @@
 <?php
 // If you are using Composer (recommended)
 require 'vendor/autoload.php';
-#$piccount="/tmp/treb_pic_count.tmp"
-$piccount="/tmp/test.tmp";
+$piccount="/tmp/treb_pic_count.tmp"
+#$piccount="/tmp/test.tmp";
 
-$apiKey = getenv('SENDGRID_API_KEY');
+$apiKey=getenv('SENDGRID_API_KEY');
 $from = new SendGrid\Email('maplecity', "info@maplecity.com.cn");
 $servername = "localhost";
 $username = "root";

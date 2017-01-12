@@ -47,3 +47,8 @@ echo "`date` : Maplecity Condo DB load is completed" >>$mlslog
 
 #Generate local house table and sync to google VM
 $scriptdir/clone_h_housetmp.sh 1
+
+#send notification
+cd $scriptdir/sendgrid
+source ./sendgrid.env
+php -f ./email.php

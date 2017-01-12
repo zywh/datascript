@@ -118,7 +118,7 @@ foreach ($property_classes as $class) {
 				if (!is_dir($photofolder)) {
 					echo "Download MLS:$mls pictures\n";
      					mkdir($photofolder);
-				downloadpic($type,$mls);
+				downloadpic($type,$mls,$city);
   				}
 
                                 foreach ($fields_order as $fo) {
