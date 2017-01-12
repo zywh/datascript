@@ -46,7 +46,9 @@ if ($result->num_rows > 0) {
 
 function emailBody($house){
 
-	$body="Price: ".$house['lp_dol']." <br> Bedroom:".$house['br']."<br> Bath:".$house['bath_tot'];
+	$urlp="http://i.citym.ca/#/housedetail/";
+	$body="<a href=".$urlp.$house['ml_num'].">Price: ".$house['lp_dol']." <br> Bedroom ".$house['br']."<br> Bath:".$house['bath_tot']." <br> Address:".$house['addr']."</a>";
+	
 	return $body;
 }
 
@@ -70,15 +72,18 @@ $response = $sg->client->mail()->send()->post($mail);
 }
 
 function match($email,$city){
+global $piccount;
 $row = 1;
 if (($handle = fopen($piccount, "r")) !== FALSE) {
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-        $house=getHouse($data[0]);
-        $to=match($house);
-        if ( $to ){
-        $subject=emailSubject($house);
-        $content=emailBody($house);
-        echo $subject;
+	if ($data[2] == $city ){
+        	$house=getHouse($data[0]);
+        	$subject=emailSubject($house);
+        	$content=emailBody($house);
+		echo "send email $subject to $email $content\n";
+		#send email if match
+		email($email,$subject,$content);
+	}
         }
 
 
@@ -86,16 +91,7 @@ if (($handle = fopen($piccount, "r")) !== FALSE) {
     fclose($handle);
 }
 
-$city=$house['municipality'];
-$sql="select email from h_user_data where mailFlag='1' and myCenter=";
-$email="zhengying@yahoo.com";
-return $email;
 	
-}
-
-$to="zhengying@yahoo.com";
-#$to="dzheng@gmail.com";
-#email($to,$subject,$content);
 
 $selectUser="select username,myCenter from h_user_data where mailFlag=1;";
 $result = $g1sql->query($selectUser);
@@ -104,9 +100,19 @@ if ($result->num_rows > 0) {
         #var_dump($row);
 	$email=$row['username'];
 	$cities = $row['myCenter'];
-	echo count($cities);
-	echo var_dump($cities);
-	#match($email,$city);
+	if(count($cities)) {
+	#var_dump($cities);
+	$center=json_decode($cities);
+	foreach( $center as $c){
+
+	
+	if ($c->name){
+	echo "$c->name\n";
+	match($email,$c->name);
+	
+	};
+	}
+	}
     }
 } 
 
