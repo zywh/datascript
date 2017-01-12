@@ -10,15 +10,23 @@ $apiKey="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";
 $servername = "localhost";
 $username = "root";
 $password = "19701029";
+$g1 = "g1";
+$g1User = "admin";
+$g1Password = "19701029";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password,'mls');
+$g1sql = new mysqli($g1, $g1User, $g1Password,'hdm106787551_db');
 
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
-echo "Connected to MYSQL\n";
+if ($g1sql->connect_error) {
+    die("G1 Connection failed: " . $g1sql->connect_error);
+}
+
+
 
 function getHouse($mls){
 global $conn;
@@ -35,8 +43,6 @@ if ($result->num_rows > 0) {
 	return $house;
 
 }
-// If you are not using Composer
-// require("path/to/sendgrid-php/sendgrid-php.php");
 
 function emailBody($house){
 
@@ -63,22 +69,46 @@ $response = $sg->client->mail()->send()->post($mail);
 
 }
 
-$to="zhengying@yahoo.com";
-#$to="dzheng@gmail.com";
-$house=getHouse("W3683872");
-$subject=emailSubject($house);
-$content=emailBody($house);
-#email($to,$subject,$content);
-
+function match($email,$city){
 $row = 1;
 if (($handle = fopen($piccount, "r")) !== FALSE) {
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-        $num = count($data);
-        echo "$num fields in line $row\n";
-        $row++;
-	var_dump($data);
+        $house=getHouse($data[0]);
+        $to=match($house);
+        if ( $to ){
+        $subject=emailSubject($house);
+        $content=emailBody($house);
+        echo $subject;
+        }
+
+
     }
     fclose($handle);
 }
+
+$city=$house['municipality'];
+$sql="select email from h_user_data where mailFlag='1' and myCenter=";
+$email="zhengying@yahoo.com";
+return $email;
+	
+}
+
+$to="zhengying@yahoo.com";
+#$to="dzheng@gmail.com";
+#email($to,$subject,$content);
+
+$selectUser="select username,myCenter from h_user_data where mailFlag=1;";
+$result = $g1sql->query($selectUser);
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        #var_dump($row);
+	$email=$row['username'];
+	$cities = $row['myCenter'];
+	echo count($cities);
+	echo var_dump($cities);
+	#match($email,$city);
+    }
+} 
+
 
 ?>
