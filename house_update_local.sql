@@ -5,7 +5,7 @@ update h_housetmp set pool='Indoor pool' where pool='Indoor';
 update h_housetmp set pool='Above ground pool' where pool='Abv Grnd';
 
 #Fix pix_updt
-update h_housetmp set  pix_updt = DATE_SUB(now(),INTERVAL 5 DAY) where pix_updt > date(now());
+#update h_housetmp set  pix_updt = DATE_SUB(now(),INTERVAL 5 DAY) where pix_updt > date(now());
 
 
 #Update Land Size from TREB Data using depthxfront_ft
@@ -37,6 +37,10 @@ lp_dol > 800000 AND lp_dol < 1200000 AND bath_tot > 3;
 
 #Update IDX house SRC flag
 update h_housetmp,idx_mls set h_housetmp.src="IDX" where h_housetmp.ml_num = idx_mls.ml_num;
+
+#update contract date
+
+update h_housetmp set pix_updt=date_sub(now(),INTERVAL datediff(now(), pix_updt) + dom-1  DAY ) where src !='CREA' and pix_updt< date(now());
 
 #stats
 
