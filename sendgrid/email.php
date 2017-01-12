@@ -2,6 +2,8 @@
 <?php
 // If you are using Composer (recommended)
 require 'vendor/autoload.php';
+#$piccount="/tmp/treb_pic_count.tmp"
+$piccount="/tmp/test.tmp";
 
 $from = new SendGrid\Email('maplecity', "info@maplecity.com.cn");
 $apiKey="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";
@@ -58,9 +60,6 @@ $mail = new SendGrid\Mail($from, $subject, $to, $body);
 #$mail = new SendGrid\Mail($from,"test", $to, $body);
 $sg = new \SendGrid($apiKey);
 $response = $sg->client->mail()->send()->post($mail);
-echo $response->statusCode();
-echo $response->headers();
-echo $response->body();
 
 }
 
@@ -69,7 +68,17 @@ $to="zhengying@yahoo.com";
 $house=getHouse("W3683872");
 $subject=emailSubject($house);
 $content=emailBody($house);
-email($to,$subject,$content);
+#email($to,$subject,$content);
 
+$row = 1;
+if (($handle = fopen($piccount, "r")) !== FALSE) {
+    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+        $num = count($data);
+        echo "$num fields in line $row\n";
+        $row++;
+	var_dump($data);
+    }
+    fclose($handle);
+}
 
 ?>
