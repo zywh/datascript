@@ -5,8 +5,8 @@ require 'vendor/autoload.php';
 #$piccount="/tmp/treb_pic_count.tmp"
 $piccount="/tmp/test.tmp";
 
+$apiKey = getenv('SENDGRID_API_KEY');
 $from = new SendGrid\Email('maplecity', "info@maplecity.com.cn");
-$apiKey="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";
 $servername = "localhost";
 $username = "root";
 $password = "19701029";
