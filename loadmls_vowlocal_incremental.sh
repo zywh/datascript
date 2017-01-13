@@ -4,7 +4,6 @@
 #Global  Parameter
 ########################
 HOST='172.30.0.108'
-PASSWD='19701029'
 USER='mls'
 homedir="/mls/172.30.0.108"
 residata="$homedir/resi/data/data.txt"
@@ -63,7 +62,7 @@ LOAD DATA INFILE '/tmp/treb_pic_count.tmp'
 replace INTO TABLE pic_num
 FIELDS TERMINATED BY ','
 "
-/usr/bin/mysql -u root -p19701029 mls -e "$loadcondo"
-/usr/bin/mysql -u root -p19701029 mls -e "$loadresi"
-/usr/bin/mysql -u root -p19701029 mls -e "$loadpiccount"
+/usr/bin/mysql -u $SQL_LOCAL_USER -p$SQL_LOCAL_PASS mls -e "$loadcondo"
+/usr/bin/mysql -u $SQL_LOCAL_USER -p$SQL_LOCAL_PASS mls -e "$loadresi"
+/usr/bin/mysql -u $SQL_LOCAL_USER -p$SQL_LOCAL_PASS mls -e "$loadpiccount"
 #sudo rm $piccount

@@ -1,9 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 
-mlslog="/home/ubuntu/log/mlslog.txt"
-scriptdir="/home/ubuntu/script"
+source /home/ubuntu/script/script.env
+
+#mlslog="/home/ubuntu/log/mlslog.txt"
+#scriptdir="/home/ubuntu/script"
 
 #check if it's running
+
 
 pcount=`ps -aef|grep master_incremental|wc -l`;
 echo $pcount

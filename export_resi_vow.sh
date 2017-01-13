@@ -2,8 +2,9 @@
 
 
 mlslog="/home/ubuntu/log/mlslog.txt"
-pass="19701029"
+pass=$SQL_LOCAL_PASS
 scriptdir="/home/ubuntu/script"
+#-u $SQL_LOCAL_USER -p$SQL_LOCAL_PASS
 
 # generate LON and LAT
 
@@ -229,10 +230,9 @@ LINES TERMINATED BY '\n';
 "
 
 
-#/usr/bin/mysql -u root -p19701029 mls -e "$exportcondo"
 sudo rm /tmp/resi.csv*
 echo "Export MLS Table for MaplyCity H_house"
-/usr/bin/mysql -u root -p19701029 mls -e "$exportresi"
+/usr/bin/mysql -u $SQL_LOCAL_USER -p$SQL_LOCAL_PASS mls -e "$exportresi"
 echo "`date`: Resi Date for Import - `wc -l /tmp/resi.csv`" >>$mlslog
 
 

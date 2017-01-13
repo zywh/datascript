@@ -1,7 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
-mlslog="/home/ubuntu/log/mlslog.txt"
-scriptdir="/home/ubuntu/script"
+
+source /home/ubuntu/script/script.env
+#mlslog="/home/ubuntu/log/mlslog.txt"
+#scriptdir="/home/ubuntu/script"
 #download crea data and load into crea table
 $scriptdir/load_crea.sh
 
