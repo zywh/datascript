@@ -7,6 +7,9 @@ namespace Composer\Autoload;
 class ComposerStaticInit82efc6c0c2e7c01c8c2d1666219562d4
 {
     public static $files = array (
+        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
+        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
+        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '3f8bdd3b35094c73a26f0106e3c0f8b2' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/SendGrid.php',
         '9dda55337a76a24e949fbcc5d905a2c7' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/helpers/mail/Mail.php',
     );
@@ -16,12 +19,64 @@ class ComposerStaticInit82efc6c0c2e7c01c8c2d1666219562d4
         array (
             'SendGrid\\' => 9,
         ),
+        'P' => 
+        array (
+            'Psr\\Http\\Message\\' => 17,
+        ),
+        'G' => 
+        array (
+            'GuzzleHttp\\Psr7\\' => 16,
+            'GuzzleHttp\\Promise\\' => 19,
+            'GuzzleHttp\\' => 11,
+        ),
+        'F' => 
+        array (
+            'Firebase\\JWT\\' => 13,
+        ),
+        'A' => 
+        array (
+            'Auth0\\SDK\\' => 10,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'SendGrid\\' => 
         array (
             0 => __DIR__ . '/..' . '/sendgrid/php-http-client/lib',
+        ),
+        'Psr\\Http\\Message\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
+        'GuzzleHttp\\Psr7\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
+        ),
+        'GuzzleHttp\\Promise\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/promises/src',
+        ),
+        'GuzzleHttp\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
+        ),
+        'Firebase\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
+        ),
+        'Auth0\\SDK\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/auth0/auth0-php/src',
+        ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'O' => 
+        array (
+            'OAuth2' => 
+            array (
+                0 => __DIR__ . '/..' . '/adoy/oauth2/src',
+            ),
         ),
     );
 
@@ -30,6 +85,7 @@ class ComposerStaticInit82efc6c0c2e7c01c8c2d1666219562d4
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit82efc6c0c2e7c01c8c2d1666219562d4::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit82efc6c0c2e7c01c8c2d1666219562d4::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit82efc6c0c2e7c01c8c2d1666219562d4::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }

@@ -8,12 +8,11 @@ source /home/ubuntu/script/script.env
 #check if it's running
 
 
-pcount=`ps -aef|grep master_incremental|wc -l`;
-echo $pcount
+pcount=`ps -aef|grep "[m]aster_incremental"|grep bash |wc -l`;
 
-if [ $pcount -gt 3 ] 
+if [ $pcount -gt 2 ] 
 then
-echo "Program  is running.... exit"
+echo "Program  is running.... exit" 
 exit 0
 fi
 
@@ -26,6 +25,7 @@ echo "`date`: Start dowload VOW Data and Pictures" >>$mlslog
 sudo php  download_vow_data.php 25 $VOW_USER $VOW_PASS
 echo "`date`: End dowload VOW Data and Pictures" >>$mlslog
 
+echo "runnning 1" >>/tmp/test.put
 
 #generate TREB TN and MID
 $scriptdir/generate_tn_incremental.sh
