@@ -3,8 +3,11 @@
 ########################
 #Global  Parameter
 ########################
+
+source /home/ubuntu/script/script.env
+PASSWD=$SQL_LOCAL_PASS
+
 HOST='172.30.0.108'
-PASSWD='19701029'
 USER='mls'
 homedir="/mls/172.30.0.108"
 residata="$homedir/resi/data/data.txt"

@@ -1,9 +1,9 @@
 #!/bin/bash
 
 
-mlslog="/home/ubuntu/log/mlslog.txt"
-pass="19701029"
-scriptdir="/home/ubuntu/script"
+
+source /home/ubuntu/script/script.env
+pass=$SQL_LOCAL_PASS
 
 # generate LON and LAT
 
