@@ -3,8 +3,11 @@
 ########################
 #Global  Parameter
 ########################
+
+source /home/ubuntu/script/script.env
+PASSWD=$SQL_LOCAL_PASS
+
 HOST='172.30.0.108'
-PASSWD='19701029'
 USER='mls'
 homedir="/mls/172.30.0.108"
 #homedir="/mls/mirror"
@@ -20,8 +23,6 @@ condopic="/mls/treb"
 
 
 #Get Current Active List from table
-#mysql -u root -p19701029 -N -B mls -e 'select ml_num from vowresi where status="A"' >/tmp/mls_a
-#mysql -u root -p19701029 -N -B mls -e 'select ml_num from vowcondo where status="A"' >>/tmp/mls_a
 cat $homedir/vowcondo/data/avail.txt $homedir/vowresi/data/avail.txt >/tmp/mls_a
 count=`wc -l< /tmp/mls_a`
 if [ $count -lt 15000 ]

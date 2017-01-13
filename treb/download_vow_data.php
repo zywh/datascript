@@ -10,10 +10,12 @@ $piclist="/tmp/treb_pic_count.tmp";
 require_once("phrets.php");
 $rets_login_url = "http://rets.torontomls.net:6103/rets-treb3pv/server/login";
 #$rets_username = "V16yzh";
-$rets_username =  getenv('VOW_USER');
+#$rets_username =  getenv('VOW_USER');
+$rets_username =  $argv[2];
 
 #$rets_password = "Ap$3778";
-$rets_password =  getenv('VOW_PASS');
+#$rets_password =  getenv('VOW_PASS');
+$rets_password =  $argv[3];
 
 //$TimeBackPull = "-1 years";
 $TimeBackPull = "-26 hours";

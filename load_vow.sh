@@ -19,6 +19,7 @@ echo "`date`: End dowload VOW ML_NUM" >>$mlslog
 
 #load vow data and picture
 echo "`date`: Start dowload VOW Data and Pictures" >>$mlslog
-sudo php  download_vow_data.php
+#sudo php  download_vow_data.php
+sudo php  download_vow_data.php 25 $VOW_USER $VOW_PASS
 echo "`date`: End dowload VOW Data and Pictures" >>$mlslog
 

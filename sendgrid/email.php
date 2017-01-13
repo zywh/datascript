@@ -5,11 +5,12 @@ $piccount="/tmp/treb_pic_count.tmp";
 $apiKey = getenv('SENDGRID_API_KEY');
 $from = new SendGrid\Email('maplecity', "info@maplecity.com.cn");
 $servername = "localhost";
-$username = "root";
-$password = "19701029";
-$g1 = "g1";
-$g1User = "admin";
-$g1Password = "19701029";
+$username = getenv('SQL_LOCAL_USER');
+$password = getenv('SQL_LOCAL_PASS');
+$g1 =  getenv('SQL_G1');
+$g1User =  getenv('SQL_G1_USER');
+$g1Password =  getenv('SQL_G1_PASS');
+
 
 // Create connection
 $conn = new mysqli($servername, $username, $password,'mls');

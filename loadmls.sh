@@ -3,8 +3,9 @@
 ########################
 #Global  Parameter
 ########################
+source /home/ubuntu/script/script.env
+PASSWD=$SQL_LOCAL_PASS
 HOST='172.30.0.108'
-PASSWD='19701029'
 USER='mls'
 homedir="/mls/172.30.0.108"
 residata="$homedir/resi/data/data.txt"
@@ -22,7 +23,7 @@ echo "`date`: loadmls start FTP download file from windows" >>$mlslog
 
 stats="/tmp/stats"
 
-wget -r ftp://$USER:$PASSWD@$HOST/ >/dev/null 
+#wget -r ftp://$USER:$PASSWD@$HOST/ >/dev/null 
 #Get number of resi
 time=`date +'%Y%m%d%H%M'`
 resi_count=`wc -l $residata|awk '{print $1}'`

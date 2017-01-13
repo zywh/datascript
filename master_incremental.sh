@@ -23,7 +23,7 @@ echo "`date`: dowload VOW data and picture start" >>$mlslog
 cd /home/ubuntu/script/treb
 #load vow data and picture
 echo "`date`: Start dowload VOW Data and Pictures" >>$mlslog
-sudo php  download_vow_data.php 
+sudo php  download_vow_data.php 25 $VOW_USER $VOW_PASS
 echo "`date`: End dowload VOW Data and Pictures" >>$mlslog
 
 
@@ -63,6 +63,8 @@ echo "`date` : Maplecity Condo DB load is completed" >>$mlslog
 $scriptdir/clone_h_housetmp.sh 1
 
 #send notification
+echo "`date` : Send Notification Start" >>$mlslog
 cd $scriptdir/sendgrid
-source ./sendgrid.env
+#source ./sendgrid.env
 php -f ./email.php
+echo "`date` : Send Notification End" >>$mlslog

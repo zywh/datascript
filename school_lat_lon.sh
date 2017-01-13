@@ -1,9 +1,11 @@
 #!/bin/bash
 
+source /home/ubuntu/script/script.env
 
-pass="19701029"
+
+pass=$SQL_LOCAL_PASS
 table="h_school"
-sqlcmd="mysql -u hdm106787551 -h  alinew -pMaplemYsql100 --local-infile  hdm106787551_db "
+sqlcmd="mysql -u $SQL_G1_USER  -h  $SQL_G1 -p$SQL_G1_PASS --local-infile  hdm106787551_db "
 
 
 # generate LON and LAT
