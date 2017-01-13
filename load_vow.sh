@@ -1,5 +1,4 @@
 #!/bin/bash
-mlslog="/home/ubuntu/log/mlslog.txt"
 
 echo "`date`: dowload VOW data and picture start" >>$mlslog
 

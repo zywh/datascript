@@ -7,11 +7,20 @@ $vowcondodata= $homedir."vowcondo/data/data.txt";
 
 require_once("phrets.php");
 $rets_login_url = "http://rets.torontomls.net:6103/rets-treb3pv/server/login";
-$rets_username = "V16yzh";
-$rets_password = "Ap$3778";
 $inputfile = $argv[1];
 #$id='W3642978';
 #echo $id;
+
+if ($argc > 3) {
+$rets_username =  $argv[2];
+$rets_password =  $argv[3];
+} else {
+$rets_password = getenv('VOW_PASS');
+$rets_username = getenv('VOW_USER');
+
+}
+
+#echo $rets_username;
 
 
 

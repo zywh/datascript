@@ -15,7 +15,7 @@ else
 	echo "Warning......"
 #send email 
 
-echo "Camping disabled data is changed to $disabledate" | mailx -v -r "zhengying@yahoo.com" -s "camping date change from david" -S smtp="smtp.mail.yahoo.com" -S smtp-use-starttls -S smtp-auth=login -S smtp-auth-user="zhengying@yahoo.com" -S smtp-auth-password="Zywh1234" -S ssl-verify=ignore zhengying@yahoo.com
+echo "Camping disabled data is changed to $disabledate" | mailx -v -r "zhengying@yahoo.com" -s "camping date change from david" -S smtp="smtp.mail.yahoo.com" -S smtp-use-starttls -S smtp-auth=login -S smtp-auth-user="zhengying@yahoo.com" -S smtp-auth-password="" -S ssl-verify=ignore zhengying@yahoo.com
 fi
 
 echo "`date +%m%d%H%M` $disabledate" >>/tmp/camp.log

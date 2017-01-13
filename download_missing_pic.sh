@@ -4,6 +4,8 @@
 #Global  Parameter
 homedir="/mls/172.30.0.108"
 trebpicdir="/mls/treb"
+source /home/ubuntu/script/script.env
+
 #################################
 rm /tmp/treb_download_list
 
@@ -21,7 +23,7 @@ fi
 
 done
 
-sudo php download_vow_missing_pic.php /tmp/treb_download_list
+sudo php download_vow_missing_pic.php /tmp/treb_download_list $VOW_USER $VOW_PASS
  
 
 

@@ -31,11 +31,8 @@ if ($g1sql->connect_error) {
 function getHouse($mls){
 	
 	global $conn;
-	
 	$sql = "SELECT ml_num,s_r,municipality,lp_dol,num_kit,br,addr,bath_tot from h_housetmp where s_r='Sale' and ml_num='".$mls."'";
-	
 	$result = $conn->query($sql);
-	
 	if ($result->num_rows > 0) {
 		
 		while($row = $result->fetch_assoc()) {
@@ -83,7 +80,7 @@ function emailSubject($house){
 	
 	
 	
-	$s= $house['addr']." ".$house['br']."房".$house['bath_tot']."卫 - 价格:".$house['lp_dol'];
+	$s= $house['municipality'].":".$house['addr']." ".$house['br']."房".$house['bath_tot']."卫 - 价格:".$house['lp_dol'];
 	
 	return $s;
 	
