@@ -2,10 +2,10 @@
 <?php
 // If you are using Composer (recommended)
 require 'vendor/autoload.php';
-$piccount="/tmp/treb_pic_count.tmp"
+$piccount="/tmp/treb_pic_count.tmp";
 #$piccount="/tmp/test.tmp";
 
-$apiKey=getenv('SENDGRID_API_KEY');
+$apiKey = getenv('SENDGRID_API_KEY');
 $from = new SendGrid\Email('maplecity', "info@maplecity.com.cn");
 $servername = "localhost";
 $username = "root";
@@ -78,11 +78,14 @@ if (($handle = fopen($piccount, "r")) !== FALSE) {
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
 	if ($data[2] == $city ){
         	$house=getHouse($data[0]);
+		if ($house){
+
         	$subject=emailSubject($house);
         	$content=emailBody($house);
 		echo "send email $subject to $email $content\n";
 		#send email if match
 		email($email,$subject,$content);
+		}
 	}
         }
 
