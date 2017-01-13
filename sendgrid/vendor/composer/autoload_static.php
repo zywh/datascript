@@ -78,6 +78,13 @@ class ComposerStaticInit82efc6c0c2e7c01c8c2d1666219562d4
                 0 => __DIR__ . '/..' . '/adoy/oauth2/src',
             ),
         ),
+        'B' => 
+        array (
+            'Bramus' => 
+            array (
+                0 => __DIR__ . '/..' . '/bramus/router/src',
+            ),
+        ),
     );
 
     public static function getInitializer(ClassLoader $loader)

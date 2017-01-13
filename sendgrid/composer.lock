@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5d34867c5178033ae88adbe4bbdde1a5",
-    "content-hash": "0a416043f6fe0dc5a57ccd39cce2dbc5",
+    "hash": "05551b2d25121a794dcb3b7a812919a6",
+    "content-hash": "7132263cf3c3f0daca6e9b3d884d82a3",
     "packages": [
         {
             "name": "adoy/oauth2",
@@ -92,6 +92,52 @@
             ],
             "description": "Auth0 PHP SDK.",
             "time": "2016-12-30 21:39:54"
+        },
+        {
+            "name": "bramus/router",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bramus/router.git",
+                "reference": "e331410878b58635a3a3cccae10a977890ec9c79"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bramus/router/zipball/e331410878b58635a3a3cccae10a977890ec9c79",
+                "reference": "e331410878b58635a3a3cccae10a977890ec9c79",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/php-code-coverage": "~1.2",
+                "phpunit/phpunit": "~3.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Bramus": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bram(us) Van Damme",
+                    "email": "bramus@bram.us",
+                    "homepage": "http://www.bram.us"
+                }
+            ],
+            "description": "A lightweight and simple object oriented PHP Router",
+            "homepage": "https://github.com/bramus/router",
+            "keywords": [
+                "router",
+                "routing"
+            ],
+            "time": "2016-07-15 19:36:40"
         },
         {
             "name": "firebase/php-jwt",
@@ -459,7 +505,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "bramus/router": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

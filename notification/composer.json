@@ -1,0 +1,8 @@
+{
+    "require": {
+        "firebase/php-jwt": "^4.0",
+        "sendgrid/sendgrid": "^5.1",
+        "sendgrid/php-http-client": "^3.5"
+
+    }
+}
