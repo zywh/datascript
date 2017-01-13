@@ -47,14 +47,14 @@ else {
 }
 
 
-function downloadpic($type,$id,$city) {
+function downloadpic($type,$id,$city,$dom) {
 global $rets,$homedir,$pichome,$fpic;
 $photos = $rets->GetObject("Property", "Photo", $id);
 $photofolder = $pichome."Photo".$id;
 //$photofolder = $homedir.$type."/picture/Photo".$id;
 
 $count=count($photos);
-$s_piclist="$id,$count,$city\n";
+$s_piclist="$id,$count,$city,$dom\n";
 echo "fwrite $s_piclist\n";
 fwrite($fpic,$s_piclist);
 
@@ -117,13 +117,14 @@ foreach ($property_classes as $class) {
                                 $this_record = array();
 				$mls = $record["Ml_num"];
 				$city = $record["Municipality"];
+				$dom = $record["Dom"];
 				echo "$mls $city\n";
 				$photofolder = $pichome."Photo".$mls;
 				//$photofolder = $homedir.$type."/picture/Photo".$mls;
 				if (!is_dir($photofolder)) {
 					echo "Download MLS:$mls pictures\n";
      					mkdir($photofolder);
-				downloadpic($type,$mls,$city);
+				downloadpic($type,$mls,$city,$dom);
   				}
 
                                 foreach ($fields_order as $fo) {

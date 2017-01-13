@@ -10,17 +10,26 @@ $rets_login_url = "http://rets.torontomls.net:6103/rets-treb3pv/server/login";
 $rets_username = "V16yzh";
 $rets_password = "Ap$3778";
 
+//$TimeBackPull = "-1 years";
+$TimeBackPull = "-1 hours";
+
+if ($argc > 1) {
+$hours = $argv[1];
+$TimeBackPull="-".$hours." hours";
+}
+
+$rets_modtimestamp_field = "Timestamp_sql";
+$previous_start_time = date('Y-m-d', strtotime($TimeBackPull))."T00:00:00";
+$query = "({$rets_modtimestamp_field}={$previous_start_time}+)";
+
+
 $id='N3605470';
 
 
 
-//$TimeBackPull = "-6 days";
-$TimeBackPull = "-90 days";
-
-$rets_modtimestamp_field = "Timestamp_sql";
 //$previous_start_time = date('Y-m-d', strtotime($TimeBackPull))."T00:00:00";
 $previous_start_time = date('Y-m-d', strtotime($TimeBackPull));
-$query = "(ml_num={$id})";
+//$query = "(ml_num={$id})";
 
 
 #echo "$query\n";
@@ -106,6 +115,7 @@ foreach ($property_classes as $class) {
                         // process results
                         while ($record = $rets->FetchRow($search)) {
                                 $this_record = array();
+				var_dump($record);
 
                                 foreach ($fields_order as $fo) {
                                         $this_record[] = $record[$fo];

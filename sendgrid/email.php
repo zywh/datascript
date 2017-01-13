@@ -63,7 +63,7 @@ function emailBody($house){
 	$body = '<h2 style="text-align: center;">枫之都新房源通知</h2>';
 	$body .= "<table style='height: 170px;' width='457'><tbody><tr><td>";
 	$body .= "<img src=".$imagep."  width='160' height='160' /></td><td><table style='height: 135px;' width='212'><tbody><tr>";
-	$body .= "<td>MLS: ".$house['ml_num']."MLS &nbsp;&nbsp;".$house['br']."房".$house['bath_tot']."卫</td></tr><tr><td>";
+	$body .= "<td>MLS: ".$house['ml_num']." &nbsp;&nbsp;".$house['br']."房".$house['bath_tot']."卫</td></tr><tr><td>";
 	$body .= "<p>地址：".$house['addr'].",".$house['municipality']."</p></td></tr><tr>";
 	$body .= "<td>价格：".$house['lp_dol']."</td>";
 	$body .= "	</tr>	</tbody>	</table>	</td>	</tr>	</tbody>	</table>	<h2><a href=".$urlp.$house['ml_num'].">查看详情&nbsp;	</a></h2>	<p>&nbsp;	</p>";
@@ -113,7 +113,7 @@ function match($email,$city){
 	$row = 1;
 	if (($handle = fopen($piccount, "r")) !== FALSE) {
 		while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-			if ($data[2] == $city ){
+			if ($data[2] == $city && $data[3] == '0'){
 				$house=getHouse($data[0]);
 				if ($house){
 					$subject=emailSubject($house);

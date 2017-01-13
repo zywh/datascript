@@ -3,6 +3,17 @@
 mlslog="/home/ubuntu/log/mlslog.txt"
 scriptdir="/home/ubuntu/script"
 
+#check if it's running
+
+pcount=`ps -aef|grep master_incremental|wc -l`;
+echo $pcount
+
+if [ $pcount -gt 3 ] 
+then
+echo "Program  is running.... exit"
+exit 0
+fi
+
 
 echo "`date`: dowload VOW data and picture start" >>$mlslog
 
