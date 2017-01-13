@@ -9,7 +9,7 @@ echo "`date`: dowload VOW data and picture start" >>$mlslog
 cd /home/ubuntu/script/treb
 #load vow data and picture
 echo "`date`: Start dowload VOW Data and Pictures" >>$mlslog
-sudo php  download_vow_data.php 3
+sudo php  download_vow_data.php 
 echo "`date`: End dowload VOW Data and Pictures" >>$mlslog
 
 

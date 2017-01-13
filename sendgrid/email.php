@@ -59,14 +59,14 @@ function getHouse($mls){
 
 function emailBody($house){
 	$urlp="http://i.citym.ca/#/housedetail/";
-    $imagp="http://";
+    	$imagep="http://creac.citym.ca/trebtn/Photo".$house['ml_num']."/Photo".$house['ml_num']."-1.jpeg";
 	$body = '<h2 style="text-align: center;">枫之都新房源通知</h2>';
 	$body .= "<table style='height: 170px;' width='457'><tbody><tr><td>";
-	$body .= "<img src=http://source.com  width='160' height='160' /></td><td><table style='height: 135px;' width='212'><tbody><tr>";
+	$body .= "<img src=".$imagep."  width='160' height='160' /></td><td><table style='height: 135px;' width='212'><tbody><tr>";
 	$body .= "<td>MLS: ".$house['ml_num']."MLS &nbsp;&nbsp;".$house['br']."房".$house['bath_tot']."卫</td></tr><tr><td>";
 	$body .= "<p>地址：".$house['addr'].",".$house['municipality']."</p></td></tr><tr>";
 	$body .= "<td>价格：".$house['lp_dol']."</td>";
-	$body .= "	</tr>	</tbody>	</table>	</td>	</tr>	</tbody>	</table>	<h2><a href=".$urlp.$house['ml_num']." target='_blank'>查看详情&nbsp;	</a></h2>	<p>&nbsp;	</p>";
+	$body .= "	</tr>	</tbody>	</table>	</td>	</tr>	</tbody>	</table>	<h2><a href=".$urlp.$house['ml_num'].">查看详情&nbsp;	</a></h2>	<p>&nbsp;	</p>";
 	$body .= '<div id="yiv9195951082">IMPORTANT NOTICE: This message is intended only for the use of the individual or entity to which it is addressed, and may contain information that is privileged, confidential and exempt from disclosure under applicable law. If the reader of this message is not the intended recipient, you are hereby notified that any dissemination, distribution or copying of this communication is strictly prohibited. If you have received this communication in error, please notify the sender immediately by email and delete the message. Thank you.</div>	';
 		
 	//$	body="<a href=".$urlp.$house['ml_num'].">Price: ".$house['lp_dol']." <br> Bedroom ".$house['br']."<br> Bath:".$house['bath_tot']." <br> Address:".$house['addr']."</a>";
@@ -82,7 +82,7 @@ function emailSubject($house){
 	
 	
 	
-	$s= $house['addr']."&nbsp &nbsp ".$house['br']."房".$house['bath_tot']."卫 - 价格:".$house['lp_dol'];
+	$s= $house['addr']." ".$house['br']."房".$house['bath_tot']."卫 - 价格:".$house['lp_dol'];
 	
 	return $s;
 	
