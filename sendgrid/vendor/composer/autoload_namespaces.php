@@ -7,5 +7,4 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'OAuth2' => array($vendorDir . '/adoy/oauth2/src'),
-    'Bramus' => array($vendorDir . '/bramus/router/src'),
 );

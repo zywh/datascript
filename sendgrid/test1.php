@@ -2,10 +2,10 @@
 
 require_once('vendor/autoload.php');
 use \Firebase\JWT\JWT;
+#use \Auth0\SDK\JWT;
 $key = "Wg1qczn2";
-#$key = "V2cxcWN6bjI="; //base64 encode
+$key = JWT::urlsafeB64Decode($key);
 $token = array(
-    "iss" => "",
     "aud" => "9fNpEj70",
 );
 
