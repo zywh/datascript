@@ -1,26 +1,25 @@
 <?php
- require __DIR__ . '/vendor/autoload.php';
 
-  // Create Router instance
-  $router = new \Bramus\Router\Router();
+require_once('vendor/autoload.php');
+use \Firebase\JWT\JWT;
+$key = "Wg1qczn2";
+#$key = "V2cxcWN6bjI="; //base64 encode
+$token = array(
+    "iss" => "",
+    "aud" => "9fNpEj70",
+);
 
-  // Check JWT on /secured routes. This can be any route you like
+/**
+ * IMPORTANT:
+ * You must specify supported algorithms for your application. See
+ * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40
+ * for a list of spec-compliant algorithms.
+ */
+$jwt = JWT::encode($token, $key);
+print_r($jwt);
+#$jwt="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE0ODQ1NzQ0NDIsImp0aSI6IjliZGQ5MTYyZGJmODhjOWU2MWViMzI2OWNkNDkxMzc5IiwiZXhwIjoxNDg0NjYxNjQyLCJhdWQiOlsiOWZOcEVqNzAiXX0.ZyeGE4rE4DHpgZkj9A53VLiXycNSuEWfOkaN9w0YU9o";
+$decoded = JWT::decode($jwt, $key, array('HS256'));
 
-    // This method will exist if you're using apache
-    // If you're not, please go to the extras for a defintion of it.
-
-    // validate the token
-    $token = str_replace('Bearer ', '', 'dfasf');
-    $secret = 'LWBDkRn0MFncXknYlCFIgkeG0HfadY_TNuskNtF6D1tbHHtdUpONcOXJR7oo3-qB';
-    $client_id = 'sfyFhgeWtYy5x1W5fOwFg2FEqnHRHae3';
-    $decoded_token = null;
-    try {
-	echo "decode token\n";
-      $decoded_token = \Auth0\SDK\Auth0JWT::decode($token,$client_id,$secret );
-      $decoded_token = \Auth0\SDK\Auth0JWT::encode($token,$client_id,$secret );
-    } catch(\Auth0\SDK\Exception\CoreException $e) {
-      echo "Invalid token";
-      exit();
-    }
+#print_r($decoded);
 
 ?>
