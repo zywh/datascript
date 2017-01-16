@@ -17,6 +17,7 @@ $token = array(
  */
 $jwt = JWT::encode($token, $key);
 print_r($jwt);
+echo "\n";
 #$jwt="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE0ODQ1NzQ0NDIsImp0aSI6IjliZGQ5MTYyZGJmODhjOWU2MWViMzI2OWNkNDkxMzc5IiwiZXhwIjoxNDg0NjYxNjQyLCJhdWQiOlsiOWZOcEVqNzAiXX0.ZyeGE4rE4DHpgZkj9A53VLiXycNSuEWfOkaN9w0YU9o";
 $decoded = JWT::decode($jwt, $key, array('HS256'));
 

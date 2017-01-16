@@ -11,6 +11,15 @@ $g1 =  getenv('SQL_G1');
 $g1User =  getenv('SQL_G1_USER');
 $g1Password =  getenv('SQL_G1_PASS');
 
+#require_once('vendor/autoload.php');
+use \Firebase\JWT\JWT;
+$key = "Wg1qczn2";
+$key = JWT::urlsafeB64Decode($key);
+$token = array(
+    "aud" => "9fNpEj70",
+);
+
+$jwt = JWT::encode($token, $key);
 
 // Create connection
 $conn = new mysqli($servername, $username, $password,'mls');
@@ -56,6 +65,7 @@ function getHouse($mls){
 
 
 function emailBody($house){
+	global $jwt;
 	$urlp="http://i.citym.ca/#/housedetail/";
 	$imagep="http://creac.citym.ca/trebtn/Photo".$house['ml_num']."/Photo".$house['ml_num']."-1.jpeg";
 	$body = '<h2 style="text-align: center;">枫之都新房源通知</h2>';
@@ -64,7 +74,7 @@ function emailBody($house){
 	$body .= "<td>MLS: ".$house['ml_num']." &nbsp;&nbsp;".$house['br']."房".$house['bath_tot']."卫</td></tr><tr><td>";
 	$body .= "<p>地址：".$house['addr'].",".$house['municipality']."</p></td></tr><tr>";
 	$body .= "<td>价格：".$house['lp_dol']."</td>";
-	$body .= "	</tr>	</tbody>	</table>	</td>	</tr>	</tbody>	</table>	<h2><a href=".$urlp.$house['ml_num'].">查看详情&nbsp;	</a></h2>	<p>&nbsp;	</p>";
+	$body .= "	</tr>	</tbody>	</table>	</td>	</tr>	</tbody>	</table>	<h2><a href=".$urlp.$house['ml_num']."/".$jwt.">查看详情&nbsp;	</a></h2>	<p>&nbsp;	</p>";
 	$body .= '<div id="yiv9195951082">IMPORTANT NOTICE: This message is intended only for the use of the individual or entity to which it is addressed, and may contain information that is privileged, confidential and exempt from disclosure under applicable law. If the reader of this message is not the intended recipient, you are hereby notified that any dissemination, distribution or copying of this communication is strictly prohibited. If you have received this communication in error, please notify the sender immediately by email and delete the message. Thank you.</div>	';
 		
 	//$	body="<a href=".$urlp.$house['ml_num'].">Price: ".$house['lp_dol']." <br> Bedroom ".$house['br']."<br> Bath:".$house['bath_tot']." <br> Address:".$house['addr']."</a>";
@@ -119,7 +129,7 @@ function match($email,$city){
 					$content=emailBody($house);
 					echo "send email $subject to $email $content\n";
 					#send email if match
-					email($email,$subject,$content);
+					#email($email,$subject,$content);
 				}
 				
 				
