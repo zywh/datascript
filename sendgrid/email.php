@@ -129,7 +129,7 @@ function match($email,$city){
 					$content=emailBody($house);
 					echo "send email $subject to $email $content\n";
 					#send email if match
-					#email($email,$subject,$content);
+					email($email,$subject,$content);
 				}
 				
 				
