@@ -13,7 +13,7 @@ $g1Password =  getenv('SQL_G1_PASS');
 
 #require_once('vendor/autoload.php');
 use \Firebase\JWT\JWT;
-$key = "Wg1qczn2";
+$key = getenv("JWT_VOW_KEY");
 $key = JWT::urlsafeB64Decode($key);
 $token = array(
     "aud" => "9fNpEj70",
