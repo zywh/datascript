@@ -62,6 +62,30 @@ function getHouse($mls){
 }
 
 
+function getHouses($c) {
+       global $conn;
+        $sql = "SELECT ml_num,s_r,municipality,lp_dol,num_kit,br,addr,bath_tot from h_housetmp where dom=0 and ".$c;
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+
+                while($row = $result->fetch_assoc()) {
+
+                        $house[]=$row;
+
+                }
+
+        }
+
+
+        else {
+
+                $house=[];
+        }
+
+        return $house;
+
+}
+
 
 
 function emailBody($house){
@@ -144,21 +168,15 @@ function match($email,$city){
 
 function matchCond($fav,$recent){
 global $conn;
-$cond = [];
 $c = [];
 $mlList=array_merge(explode(",",$fav),explode(",",$recent));
 $inList = implode("','",$mlList);
 $sql = "SELECT avg(lp_dol) avgp,avg(br) avgb,count(*) count,municipality from h_housetmp where s_r='Sale' and ml_num in ('".$inList."') group by municipality order by count desc limit 2";
-	echo "$sql\n";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
-		$a['price']=$row['avgp'];
 		$pmax = $row['avgp']*1.3;
 		$pmin = $row['avgp']*0.7;
-		$a['br']=$row['avgb'];
-		$a['city'] = $row['municipality'];
-		$cond[] =  $a;
 		$c[] = "(municipality='".$row['municipality']."' and lp_dol < $pmax and lp_dol > $pmin)";
 
 
@@ -167,9 +185,7 @@ $sql = "SELECT avg(lp_dol) avgp,avg(br) avgb,count(*) count,municipality from h_
         }
 
 $s = implode(" OR ",$c);
-echo "$s\n";
-return $s;
-
+return "($s)";
 
 
 }
@@ -181,13 +197,16 @@ if ($result->num_rows > 0) {
 	while($row = $result->fetch_assoc()) {
 		$email=$row['username'];
 		$cities = $row['myCenter'];
-		matchCond($row['houseFav'],$row['recentView']);
+		$condition=matchCond($row['houseFav'],$row['recentView']);
+		$houses=getHouses($condition);
+		var_dump($houses);
+	        	
+		/*
 		if(count($cities)) {
 			
 			#var_dump($cities);
 			$center=json_decode($cities);
 			foreach( $center as $c){
-				
 				if ($c->name){
 					echo "$c->name\n";
 	
@@ -199,6 +218,7 @@ if ($result->num_rows > 0) {
 			
 			
 		}
+		*/
 		
 		
 	}
