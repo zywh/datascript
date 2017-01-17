@@ -168,9 +168,10 @@ function match($email,$condition){
 function matchCond($fav,$recent){
 global $conn;
 $c = [];
+$minList=5;
 $mlList=array_merge(explode(",",$fav),explode(",",$recent));
 $inList = implode("','",$mlList);
-$sql = "SELECT avg(lp_dol) avgp,avg(br) avgb,count(*) count,municipality from h_housetmp where s_r='Sale' and ml_num in ('".$inList."') group by municipality having count > 3 order by count desc limit 2";
+$sql = "SELECT avg(lp_dol) avgp,avg(br) avgb,count(*) count,municipality from h_housetmp where s_r='Sale' and ml_num in ('".$inList."') group by municipality having count > $minList order by count desc limit 2";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
@@ -189,7 +190,7 @@ return "($s)";
 
 }
 
-$selectUser="select username,houseFav,recentView,myCenter from h_user_data where mailFlag=0;";
+$selectUser="select username,houseFav,recentView,myCenter from h_user_data where mailFlag=1;";
 $result = $g1sql->query($selectUser);
 
 if ($result->num_rows > 0) {
