@@ -37,10 +37,11 @@ if ($g1sql->connect_error) {
 }
 
 
-function getHouse($mls){
+function getHouse($mls,$c){
 	
 	global $conn;
-	$sql = "SELECT ml_num,s_r,municipality,lp_dol,num_kit,br,addr,bath_tot from h_housetmp where s_r='Sale' and ml_num='".$mls."'";
+	$sql = "SELECT ml_num,s_r,municipality,lp_dol,num_kit,br,addr,bath_tot from h_housetmp where  ml_num='".$mls."' AND ".$c;
+	echo "$sql\n";
 	$result = $conn->query($sql);
 	if ($result->num_rows > 0) {
 		
@@ -65,11 +66,10 @@ function getHouse($mls){
 function getHouses($c) {
        global $conn;
         $sql = "SELECT ml_num,s_r,municipality,lp_dol,num_kit,br,addr,bath_tot from h_housetmp where dom=0 and ".$c;
+	echo "$sql\n";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
-
                 while($row = $result->fetch_assoc()) {
-
                         $house[]=$row;
 
                 }
@@ -112,10 +112,7 @@ function emailBody($house){
 
 function emailSubject($house){
 	
-	
-	
 	$s= $house['municipality'].":".$house['addr']." ".$house['br']."房".$house['bath_tot']."卫 - 价格:".$house['lp_dol'];
-	
 	return $s;
 	
 }
@@ -139,21 +136,22 @@ $response = $sg->client->mail()->send()->post($mail);
 
 
 
-function match($email,$city){
+function match($email,$condition){
 	
 	global $piccount;
 	$row = 1;
+        //open latest picture donwload
 	if (($handle = fopen($piccount, "r")) !== FALSE) {
 		while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-			if ($data[2] == $city && (int)$data[3] <2){
-				echo "$data[0]\n";
-				$house=getHouse($data[0]);
+			if ( (int)$data[3] <2){  //if dom is less than 2 days
+				//echo "$data[0]\n";
+				$house=getHouse($data[0],$condition);
 				if ($house){
 					$subject=emailSubject($house);
 					$content=emailBody($house);
 					echo "send email $subject to $email $content\n";
 					#send email if match
-					email($email,$subject,$content);
+					#email($email,$subject,$content);
 				}
 				
 				
@@ -198,34 +196,18 @@ if ($result->num_rows > 0) {
 		$email=$row['username'];
 		$cities = $row['myCenter'];
 		$condition=matchCond($row['houseFav'],$row['recentView']);
-		$houses=getHouses($condition);
-		var_dump($houses);
-	        	
-		/*
-		if(count($cities)) {
-			
-			#var_dump($cities);
-			$center=json_decode($cities);
-			foreach( $center as $c){
-				if ($c->name){
-					echo "$c->name\n";
-	
-					#match($email,$c->name);
-				}
+		//$houses=getHouses($condition);
+		//var_dump($houses);
+		match($email,$condition);
 				
-				
-			}
-			
 			
 		}
-		*/
 		
 		
-	}
-	
-	
-	
 }
+	
+	
+	
 
 
 

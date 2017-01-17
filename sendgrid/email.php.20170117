@@ -14,7 +14,6 @@ $g1Password =  getenv('SQL_G1_PASS');
 #require_once('vendor/autoload.php');
 use \Firebase\JWT\JWT;
 $key = getenv("JWT_VOW_KEY");
-echo $key;
 $key = JWT::urlsafeB64Decode($key);
 $token = array(
     "aud" => "9fNpEj70",
@@ -38,11 +37,10 @@ if ($g1sql->connect_error) {
 }
 
 
-function getHouse($mls,$c){
+function getHouse($mls){
 	
 	global $conn;
-	$sql = "SELECT ml_num,s_r,municipality,lp_dol,num_kit,br,addr,bath_tot from h_housetmp where  ml_num='".$mls."' AND ".$c;
-	//echo "$sql\n";
+	$sql = "SELECT ml_num,s_r,municipality,lp_dol,num_kit,br,addr,bath_tot from h_housetmp where s_r='Sale' and ml_num='".$mls."'";
 	$result = $conn->query($sql);
 	if ($result->num_rows > 0) {
 		
@@ -63,29 +61,6 @@ function getHouse($mls,$c){
 	return $house;
 }
 
-
-function getHouses($c) {
-       global $conn;
-        $sql = "SELECT ml_num,s_r,municipality,lp_dol,num_kit,br,addr,bath_tot from h_housetmp where dom=0 and ".$c;
-	//echo "$sql\n";
-        $result = $conn->query($sql);
-        if ($result->num_rows > 0) {
-                while($row = $result->fetch_assoc()) {
-                        $house[]=$row;
-
-                }
-
-        }
-
-
-        else {
-
-                $house=[];
-        }
-
-        return $house;
-
-}
 
 
 
@@ -113,7 +88,10 @@ function emailBody($house){
 
 function emailSubject($house){
 	
+	
+	
 	$s= $house['municipality'].":".$house['addr']." ".$house['br']."房".$house['bath_tot']."卫 - 价格:".$house['lp_dol'];
+	
 	return $s;
 	
 }
@@ -137,16 +115,15 @@ $response = $sg->client->mail()->send()->post($mail);
 
 
 
-function match($email,$condition){
+function match($email,$city){
 	
 	global $piccount;
 	$row = 1;
-        //open latest picture donwload
 	if (($handle = fopen($piccount, "r")) !== FALSE) {
 		while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-			if ( (int)$data[3] <2){  //if dom is less than 2 days
-				//echo "$data[0]\n";
-				$house=getHouse($data[0],$condition);
+			if ($data[2] == $city && (int)$data[3] <2){
+				echo "$data[0]\n";
+				$house=getHouse($data[0]);
 				if ($house){
 					$subject=emailSubject($house);
 					$content=emailBody($house);
@@ -165,50 +142,36 @@ function match($email,$condition){
 	
 }
 
-function matchCond($fav,$recent){
-global $conn;
-$c = [];
-$mlList=array_merge(explode(",",$fav),explode(",",$recent));
-$inList = implode("','",$mlList);
-$sql = "SELECT avg(lp_dol) avgp,avg(br) avgb,count(*) count,municipality from h_housetmp where s_r='Sale' and ml_num in ('".$inList."') group by municipality order by count desc limit 2";
-        $result = $conn->query($sql);
-        if ($result->num_rows > 0) {
-                while($row = $result->fetch_assoc()) {
-		$pmax = $row['avgp']*1.3;
-		$pmin = $row['avgp']*0.7;
-		$c[] = "(municipality='".$row['municipality']."' and lp_dol < $pmax and lp_dol > $pmin)";
-
-
-                }
-
-        }
-
-$s = implode(" OR ",$c);
-return "($s)";
-
-
-}
-
-$selectUser="select username,houseFav,recentView,myCenter from h_user_data where mailFlag=1;";
+$selectUser="select username,myCenter from h_user_data where mailFlag=1;";
 $result = $g1sql->query($selectUser);
 
 if ($result->num_rows > 0) {
 	while($row = $result->fetch_assoc()) {
 		$email=$row['username'];
 		$cities = $row['myCenter'];
-		$condition=matchCond($row['houseFav'],$row['recentView']);
-		//$houses=getHouses($condition);
-		//var_dump($houses);
-		match($email,$condition);
+		if(count($cities)) {
+			
+			#var_dump($cities);
+			$center=json_decode($cities);
+			foreach( $center as $c){
 				
+				if ($c->name){
+					echo "$c->name\n";
+					match($email,$c->name);
+				}
+				
+				
+			}
+			
 			
 		}
 		
 		
+	}
+	
+	
+	
 }
-	
-	
-	
 
 
 
