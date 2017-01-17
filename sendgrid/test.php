@@ -143,10 +143,35 @@ function match($email,$city){
 }
 
 function matchCond($fav,$recent){
-$mlList="";	
-if ($fav) $mlList=$fav;
-if ($recent) $mlList=$mlList.",".$recent;
-echo "$mlList\n";
+global $conn;
+$cond = [];
+$c = [];
+$mlList=array_merge(explode(",",$fav),explode(",",$recent));
+$inList = implode("','",$mlList);
+$sql = "SELECT avg(lp_dol) avgp,avg(br) avgb,count(*) count,municipality from h_housetmp where s_r='Sale' and ml_num in ('".$inList."') group by municipality order by count desc limit 2";
+	echo "$sql\n";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {
+		$a['price']=$row['avgp'];
+		$pmax = $row['avgp']*1.3;
+		$pmin = $row['avgp']*0.7;
+		$a['br']=$row['avgb'];
+		$a['city'] = $row['municipality'];
+		$cond[] =  $a;
+		$c[] = "(municipality='".$row['municipality']."' and lp_dol < $pmax and lp_dol > $pmin)";
+
+
+                }
+
+        }
+
+$s = implode(" OR ",$c);
+echo "$s\n";
+return $s;
+
+
+
 }
 
 $selectUser="select username,houseFav,recentView,myCenter from h_user_data where mailFlag=1;";
