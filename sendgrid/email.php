@@ -102,7 +102,7 @@ function getHouses($c) {
 function emailBody($house){
 	global $jwt;
 	$urlp="http://i.citym.ca/#/housedetail/";
-	$imagep="http://creac.citym.ca/trebtn/Photo".$house['ml_num']."/Photo".$house['ml_num']."-1.jpeg";
+	$imagep="http://creac.citym.ca/treb/Photo".$house['ml_num']."/Photo".$house['ml_num']."-1.jpeg";
 	$body = '<h2 style="text-align: center;">枫之都新房源通知</h2>';
 	$body .= "<table style='height: 170px;' width='457'><tbody><tr><td>";
 	$body .= "<img src=".$imagep."  width='160' height='160' /></td><td><table style='height: 135px;' width='212'><tbody><tr>";
