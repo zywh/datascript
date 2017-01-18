@@ -28,6 +28,7 @@ update h_housetmp,idx_mls set h_housetmp.src="IDX" where h_housetmp.ml_num = idx
 
 #update contract date
 update h_housetmp set pix_updt=date_sub(now(),INTERVAL datediff(now(), pix_updt) + dom-1  DAY ) where src !='CREA' and pix_updt< date(now());
+update h_housetmp set pix_updt=date_sub(now(),INTERVAL datediff(now(), pix_updt) + dom  DAY ) where src !='CREA' and pix_updt = date(now());
 
 
 
