@@ -37,6 +37,17 @@ if ($g1sql->connect_error) {
 }
 
 
+function median($numbers=array())
+{
+	if (!is_array($numbers))
+		$numbers = func_get_args();
+	
+	rsort($numbers);
+	$mid = (count($numbers) / 2);
+	return ($mid % 2 != 0) ? $numbers{$mid-1} : (($numbers{$mid-1}) + $numbers{$mid}) / 2;
+}
+
+
 function getHouse($mls,$c){
 	
 	global $conn;
@@ -169,12 +180,17 @@ global $conn;
 $c = [];
 $mlList=array_merge(explode(",",$fav),explode(",",$recent));
 $inList = implode("','",$mlList);
-$sql = "SELECT avg(lp_dol) avgp,avg(br) avgb,count(*) count,municipality from h_housetmp where s_r='Sale' and ml_num in ('".$inList."') group by municipality order by count desc limit 2";
+#$sql = "SELECT avg(lp_dol) avgp,avg(br) avgb,count(*) count,municipality from h_housetmp where s_r='Sale' and ml_num in ('".$inList."') group by municipality order by count desc limit 2";
+$sql = "SELECT  GROUP_CONCAT(lp_dol) plist, GROUP_CONCAT(br) brlist,count(*) count,municipality from h_housetmp where s_r='Sale' and ml_num in ('".$inList."') group by municipality order by count desc limit 2";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
-		$pmax = $row['avgp']*1.3;
-		$pmin = $row['avgp']*0.7;
+		$plist = explode(",",$row['plist']);
+		$blist = explode(",",$row['brlist']);
+		
+		$medianp= median($plist);
+		$pmax = $medianp*1.3;
+		$pmin = $medianp*0.7; 
 		$c[] = "(municipality='".$row['municipality']."' and lp_dol < $pmax and lp_dol > $pmin)";
 
 
@@ -189,6 +205,7 @@ return "($s)";
 }
 
 $selectUser="select username,houseFav,recentView,myCenter from h_user_data where mailFlag=1;";
+#$selectUser="select username,houseFav,recentView,myCenter from h_user_data ";
 $result = $g1sql->query($selectUser);
 
 if ($result->num_rows > 0) {
@@ -196,6 +213,7 @@ if ($result->num_rows > 0) {
 		$email=$row['username'];
 		$cities = $row['myCenter'];
 		$condition=matchCond($row['houseFav'],$row['recentView']);
+		echo "$email,$condition\n";
 		//$houses=getHouses($condition);
 		//var_dump($houses);
 		match($email,$condition);
