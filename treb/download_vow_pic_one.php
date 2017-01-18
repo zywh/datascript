@@ -10,7 +10,7 @@ $rets_login_url = "http://rets.torontomls.net:6103/rets-treb3pv/server/login";
 $rets_username = "V16yzh";
 $rets_password = "Ap$3778";
 #$inputfile = $argv[1];
-$id='N3605470';
+$id='W3686941';
 echo $id;
 
 
