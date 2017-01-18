@@ -102,7 +102,7 @@ function getHouses($c) {
 function emailBody($house){
 	global $jwt;
 	$urlp="http://i.citym.ca/#/housedetail/";
-	$imagep="http://creac.citym.ca/trebtn/Photo".$house['ml_num']."/Photo".$house['ml_num']."-1.jpeg";
+	$imagep="http://creac.citym.ca/treb/Photo".$house['ml_num']."/Photo".$house['ml_num']."-1.jpeg";
 	$body = '<h2 style="text-align: center;">枫之都新房源通知</h2>';
 	$body .= "<table style='height: 170px;' width='457'><tbody><tr><td>";
 	$body .= "<img src=".$imagep."  width='160' height='160' /></td><td><table style='height: 135px;' width='212'><tbody><tr>";
@@ -130,17 +130,38 @@ function emailSubject($house){
 
 
 
-function email($to,$subject,$content){
+function email($to,$subject,$house){
 	
-global $apiKey,$from;
+global $apiKey,$from,$jwt;
 echo "send email\n";
+var_dump($house);
+$urlp="http://i.citym.ca/#/housedetail/";
+$ulink="http://www.google.com";
+$hurl=$urlp.$house['ml_num']."/".$jwt;
+$imagep="http://creac.citym.ca/treb/Photo".$house['ml_num']."/Photo".$house['ml_num']."-1.jpeg";
 $to = new SendGrid\Email(null, $to);
-$body = new SendGrid\Content("text/html", $content);
+$body = new SendGrid\Content("text/html", " ");
 #$body = new SendGrid\Content("text/html","test" );
 $mail = new SendGrid\Mail($from, $subject, $to, $body);
+$mail->personalization[0]->addSubstitution("-mls-", $house['ml_num']);
+$mail->personalization[0]->addSubstitution("-price-", $house['lp_dol']);
+$mail->personalization[0]->addSubstitution("-addr-", $house['addr']);
+$mail->personalization[0]->addSubstitution("-hurl-", $hurl);
+$mail->personalization[0]->addSubstitution("-ulink-", $ulink);
+$mail->personalization[0]->addSubstitution("-iurl-", $imagep);
+$mail->setTemplateId("8ad5d103-6d70-4ca5-a404-b77f12e7fd8d");
+
 #$mail = new SendGrid\Mail($from,"test", $to, $body);
 $sg = new \SendGrid($apiKey);
-$response = $sg->client->mail()->send()->post($mail);
+try {
+    $response = $sg->client->mail()->send()->post($mail);
+} catch (Exception $e) {
+    echo 'Caught exception: ',  $e->getMessage(), "\n";
+}
+
+echo $response->statusCode();
+echo $response->headers();
+echo $response->body();
 
 }
 
@@ -160,9 +181,10 @@ function match($email,$condition){
 				if ($house){
 					$subject=emailSubject($house);
 					$content=emailBody($house);
-					echo "send email $subject to $email $content\n";
+					//echo "send email $subject to $email $content\n";
 					#send email if match
 					#email($email,$subject,$content);
+					email($email,$subject,$house);
 				}
 				
 				
