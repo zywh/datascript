@@ -130,41 +130,17 @@ function emailSubject($house){
 
 
 
-function email($to,$subject,$house){
+function email($to,$subject,$content){
 	
-global $apiKey,$from,$jwt;
+global $apiKey,$from;
 echo "send email\n";
-var_dump($house);
-$urlp="http://i.citym.ca/#/housedetail/";
-$ulink="http://www.google.com";
-$hurl=$urlp.$house['ml_num']."/".$jwt;
-$imagep="http://creac.citym.ca/treb/Photo".$house['ml_num']."/Photo".$house['ml_num']."-1.jpeg";
 $to = new SendGrid\Email(null, $to);
-$body = new SendGrid\Content("text/html", " ");
+$body = new SendGrid\Content("text/html", $content);
 #$body = new SendGrid\Content("text/html","test" );
 $mail = new SendGrid\Mail($from, $subject, $to, $body);
-$mail->personalization[0]->addSubstitution("-mls-", $house['ml_num']);
-$mail->personalization[0]->addSubstitution("-price-", $house['lp_dol']);
-$mail->personalization[0]->addSubstitution("-addr-", $house['addr']);
-$mail->personalization[0]->addSubstitution("-city-", $house['municipality']);
-$mail->personalization[0]->addSubstitution("-br-", $house['br']);
-$mail->personalization[0]->addSubstitution("-bath-", $house['bath_tot']);
-$mail->personalization[0]->addSubstitution("-hurl-", $hurl);
-$mail->personalization[0]->addSubstitution("-ulink-", $ulink);
-$mail->personalization[0]->addSubstitution("-iurl-", $imagep);
-$mail->setTemplateId("8ad5d103-6d70-4ca5-a404-b77f12e7fd8d");
-
 #$mail = new SendGrid\Mail($from,"test", $to, $body);
 $sg = new \SendGrid($apiKey);
-try {
-    $response = $sg->client->mail()->send()->post($mail);
-} catch (Exception $e) {
-    echo 'Caught exception: ',  $e->getMessage(), "\n";
-}
-
-echo $response->statusCode();
-echo $response->headers();
-echo $response->body();
+$response = $sg->client->mail()->send()->post($mail);
 
 }
 
@@ -184,10 +160,9 @@ function match($email,$condition){
 				if ($house){
 					$subject=emailSubject($house);
 					$content=emailBody($house);
-					//echo "send email $subject to $email $content\n";
+					echo "send email $subject to $email $content\n";
 					#send email if match
-					#email($email,$subject,$content);
-					email($email,$subject,$house);
+					email($email,$subject,$content);
 				}
 				
 				
