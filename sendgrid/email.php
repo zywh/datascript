@@ -134,7 +134,6 @@ function email($to,$subject,$house){
 	
 global $apiKey,$from,$jwt;
 echo "send email\n";
-var_dump($house);
 $urlp="http://i.citym.ca/#/housedetail/";
 $ulink="http://www.google.com";
 $hurl=$urlp.$house['ml_num']."/".$jwt;
