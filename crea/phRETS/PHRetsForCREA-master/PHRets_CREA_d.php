@@ -564,7 +564,7 @@ class phRETS {
 						
 			$body = utf8_encode($body);
 			$xml = simplexml_load_string($body, "SimpleXMLElement", 0, "urn:CREA.Search.Property", false);
-			//print_r($xml);
+			print_r($xml);
 			$properties = array();
 			//error_log(print_r($xml->{"RETS-RESPONSE"}, true));
 			$count = ($xml->{"RETS-RESPONSE"}->Pagination && $xml->{"RETS-RESPONSE"}->Pagination->TotalRecords)
