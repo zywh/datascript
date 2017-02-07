@@ -134,7 +134,6 @@ function email($to,$subject,$house){
 	
 global $apiKey,$from,$jwt;
 echo "send email\n";
-var_dump($house);
 $urlp="http://i.citym.ca/#/housedetail/";
 $ulink="http://www.google.com";
 $hurl=$urlp.$house['ml_num']."/".$jwt;
@@ -241,7 +240,7 @@ if ($result->num_rows > 0) {
 		echo "$email,$condition\n";
 		//$houses=getHouses($condition);
 		//var_dump($houses);
-		match($email,$condition);
+		//match($email,$condition);
 				
 			
 		}
