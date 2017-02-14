@@ -5,7 +5,7 @@ update h_housetmp set pool='Indoor pool' where pool='Indoor';
 update h_housetmp set pool='Above ground pool' where pool='Abv Grnd';
 
 #Fix pix_updt
-#update h_housetmp set  pix_updt = DATE_SUB(now(),INTERVAL 5 DAY) where pix_updt > date(now());
+update h_housetmp set  pix_updt = DATE_SUB(now(),INTERVAL 5 DAY) where pix_updt > date(now());
 
 
 #Update Land Size from TREB Data using depthxfront_ft
