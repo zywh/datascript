@@ -37,8 +37,7 @@ echo "`date`: Export Resi MLS for Google Map API - $count" >>$mlslog
 
 cd /tmp
 geoapi="https://maps.googleapis.com/maps/api/geocode/json?address="
-#key="AIzaSyAWB8vpdbzBZGt43jHqdxm1n6z6-516dQo"
-key=$GOOGLEMAP_APIKEY
+key="AIzaSyAWB8vpdbzBZGt43jHqdxm1n6z6-516dQo"
 
 [ -f latlng.txt ] && sudo rm latlng.txt
 [ -f results.json ] && rm results.json

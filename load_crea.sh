@@ -129,7 +129,8 @@ geoapi="https://maps.googleapis.com/maps/api/geocode/json?address="
 #Key for freelife project
 #key="AIzaSyAWB8vpdbzBZGt43jHqdxm1n6z6-516dQo"
 #Key for maplecity project
-key="AIzaSyBGJcQ82UD7-0p-O1kAXjiPiAaSUWkpi2w"
+#key="AIzaSyBGJcQ82UD7-0p-O1kAXjiPiAaSUWkpi2w"
+key=$GOOGLEMAP_APIKEY
 
 [ -f $latlonfile ] && sudo rm $latlonfile
 [ -f results.json ] && rm results.json
