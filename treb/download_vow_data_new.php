@@ -121,6 +121,8 @@ foreach ($property_classes as $class) {
                         // process results
                         while ($record = $rets->FetchRow($search)) {
                                 $this_record = array();
+				$record_lowkey = array_change_key_case($record);
+ 				var_dump($record_lowkey);
 				$mls = $record["Ml_num"];
 				$city = $record["Municipality"];
 				$dom = $record["Dom"];
