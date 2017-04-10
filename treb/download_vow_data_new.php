@@ -115,14 +115,16 @@ foreach ($property_classes as $class) {
 
                         if ($offset == 1) {
                                 $fields_order = $rets->SearchGetFields($search);
+				var_dump($fields_order);
                         }
 
 
                         // process results
                         while ($record = $rets->FetchRow($search)) {
                                 $this_record = array();
-				$record_lowkey = array_change_key_case($record);
- 				var_dump($record_lowkey);
+				#$record_lowkey = array_change_key_case($record);
+ 				#var_dump($record_lowkey);
+				#var_dump($record);
 				$mls = $record["Ml_num"];
 				$city = $record["Municipality"];
 				$dom = $record["Dom"];

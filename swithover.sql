@@ -1,0 +1,77 @@
+create table vowresi0412 like vowresi;
+create table vowcondo0412 like vowcondo;
+
+
+insert into vowresi0412 select * from vowresi;
+insert into vowcondo0412 select * from vowcondo;
+
+alter table vowresi add water_body varchar(25) null;
+alter table vowresi add water_type varchar(25) null;
+alter table vowresi add water_front varchar(25) null;
+alter table vowresi add water_feat1 varchar(25) null;
+alter table vowresi add water_feat2 varchar(25) null;
+alter table vowresi add water_feat3 varchar(25) null;
+alter table vowresi add water_feat4 varchar(25) null;
+alter table vowresi add water_feat5 varchar(25) null;
+alter table vowresi add access_prop1 varchar(25) null;
+alter table vowresi add access_prop2 varchar(25) null;
+alter table vowresi add shoreline1 varchar(25) null;
+alter table vowresi add shoreline2 varchar(25) null;
+alter table vowresi add shore_allow varchar(25) null;
+alter table vowresi add shoreline_exp varchar(25) null;
+alter table vowresi add alt_power1 varchar(25) null;
+alter table vowresi add alt_power2 varchar(25) null;
+alter table vowresi add easement_rest1 varchar(25) null;
+alter table vowresi add easement_rest2 varchar(25) null;
+alter table vowresi add easement_rest3 varchar(25) null;
+alter table vowresi add easement_rest4 varchar(25) null;
+alter table vowresi add rural_svc1 varchar(25) null;
+alter table vowresi add rural_svc2 varchar(25) null;
+alter table vowresi add rural_svc3 varchar(25) null;
+alter table vowresi add rural_svc4 varchar(25) null;
+alter table vowresi add rural_svc5 varchar(25) null;
+alter table vowresi add water_acc_bldg1 varchar(25) null;
+alter table vowresi add water_acc_bldg2 varchar(25) null;
+alter table vowresi add water_del_feat1 varchar(25) null;
+alter table vowresi add water_del_feat2 varchar(25) null;
+alter table vowresi add sewage1 varchar(25) null;
+alter table vowresi add sewage2 varchar(25) null;
+alter table vowresi add potl varchar(25) null;
+alter table vowresi add tot_park_spcs varchar(25) null;
+
+
+alter table vowcondo add water_body varchar(25) null;
+alter table vowcondo add water_type varchar(25) null;
+alter table vowcondo add water_front varchar(25) null;
+alter table vowcondo add water_feat1 varchar(25) null;
+alter table vowcondo add water_feat2 varchar(25) null;
+alter table vowcondo add water_feat3 varchar(25) null;
+alter table vowcondo add water_feat4 varchar(25) null;
+alter table vowcondo add water_feat5 varchar(25) null;
+alter table vowcondo add access_prop1 varchar(25) null;
+alter table vowcondo add access_prop2 varchar(25) null;
+alter table vowcondo add shoreline1 varchar(25) null;
+alter table vowcondo add shoreline2 varchar(25) null;
+alter table vowcondo add shore_allow varchar(25) null;
+alter table vowcondo add shoreline_exp varchar(25) null;
+alter table vowcondo add alt_power1 varchar(25) null;
+alter table vowcondo add alt_power2 varchar(25) null;
+alter table vowcondo add easement_rest1 varchar(25) null;
+alter table vowcondo add easement_rest2 varchar(25) null;
+alter table vowcondo add easement_rest3 varchar(25) null;
+alter table vowcondo add easement_rest4 varchar(25) null;
+alter table vowcondo add rural_svc1 varchar(25) null;
+alter table vowcondo add rural_svc2 varchar(25) null;
+alter table vowcondo add rural_svc3 varchar(25) null;
+alter table vowcondo add rural_svc4 varchar(25) null;
+alter table vowcondo add rural_svc5 varchar(25) null;
+alter table vowcondo add water_acc_bldg1 varchar(25) null;
+alter table vowcondo add water_acc_bldg2 varchar(25) null;
+alter table vowcondo add water_del_feat1 varchar(25) null;
+alter table vowcondo add water_del_feat2 varchar(25) null;
+alter table vowcondo add sewage1 varchar(25) null;
+alter table vowcondo add sewage2 varchar(25) null;
+alter table vowcondo add tot_park_spcs varchar(25) null;
+alter table vowcondo add locker_lev_unit varchar(25) null;
+alter table vowcondo add locker_unit varchar(25) null;
+
