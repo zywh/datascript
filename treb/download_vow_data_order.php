@@ -11,7 +11,7 @@ require_once("phrets.php");
 $rets_login_url = "http://rets.torontomls.net:6103/rets-treb3pv/server/login";
 
 //$TimeBackPull = "-1 years";
-$TimeBackPull = "-26 hours";
+$TimeBackPull = "-2 hours";
 
 if ($argc > 1) {
 $hours = $argv[1];
@@ -40,7 +40,6 @@ if (file_exists($piclist)) {
 $rets = new phRETS;
 $rets->SetParam("offset_support", true);
 $property_classes = array("ResidentialProperty","CondoProperty");
-echo "Connecting to {$rets_login_url} as {$rets_username}<br>\n";
 $connect = $rets->Connect($rets_login_url, $rets_username, $rets_password);
 
 if ($connect) {
@@ -115,32 +114,20 @@ foreach ($property_classes as $class) {
 
                         if ($offset == 1) {
                                 $fields_order = $rets->SearchGetFields($search);
-				var_dump($fields_order);
+ 				$string = implode(',', $fields_order);
+				echo "$string\n";
                         }
 
 
                         // process results
                         while ($record = $rets->FetchRow($search)) {
                                 $this_record = array();
-				#$record_lowkey = array_change_key_case($record);
- 				#var_dump($record_lowkey);
-				#var_dump($record);
 				$mls = $record["Ml_num"];
 				$city = $record["Municipality"];
 				$dom = $record["Dom"];
-				echo "$mls $city\n";
 				$photofolder = $pichome."Photo".$mls;
 				//$photofolder = $homedir.$type."/picture/Photo".$mls;
-				if (!is_dir($photofolder)) {
-					echo "Download MLS:$mls pictures\n";
-     					mkdir($photofolder);
-				downloadpic($type,$mls,$city,$dom);
-  				}
 
-                                foreach ($fields_order as $fo) {
-                                        $this_record[] = $record[$fo];
-                                }
-                                fputcsv($fh, $this_record,"|");
 				
                         }
 		 $offset = ($offset + $rets->NumRows());
@@ -149,15 +136,12 @@ foreach ($property_classes as $class) {
         }
 	$maxrows = $rets->IsMaxrowsReached();
 
-        echo "Total found: {$rets->TotalRecordsFound()}, $offset\n";
         $rets->FreeResult($search);
 }
         fclose($fh);
-        echo "done\n";
 
 }
 
-echo "Disconnecting\n";
 $rets->Disconnect();
 
         fclose($fpic);
