@@ -31,7 +31,7 @@ echo "runnning 1" >>/tmp/test.put
 $scriptdir/generate_tn_incremental.sh
 
 #Local VOW data into local resi and condo table
-$scriptdir/loadmls_vowlocal_incremental.sh
+$scriptdir/loadmls_vowlocal_incremental0412.sh
 
 
 #Update treb pic_num table

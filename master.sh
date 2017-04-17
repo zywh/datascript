@@ -11,7 +11,7 @@ $scriptdir/load_crea.sh
 $scriptdir/load_vow.sh
 
 #Local VOW data into local resi and condo table
-$scriptdir/loadmls_vowlocal.sh
+$scriptdir/loadmls_vowlocal0412.sh
 
 echo "`date` : Start TREB picture cleanup" >>$mlslog
 sudo $scriptdir/cleanpic.sh
