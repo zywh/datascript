@@ -45,7 +45,7 @@ done
 }
 
 
-clean_pic  Ontario "Ontario" 35000
+clean_pic  Ontario "Ontario" 29000
 clean_pic  BritishColumbia "British Columbia" 5000
 clean_pic  Alberta "Alberta" 5000
 exit 0
