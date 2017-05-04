@@ -26,7 +26,7 @@ then
 echo "Active list $count is less than $safe"
 exit 0
 fi
-ls | sed 's/Photo//'  >/tmp/current
+ls -f | sed 's/Photo//'  >/tmp/current
 cat /tmp/mlsactive /tmp/current >/tmp/list_getdeletepic
 sort /tmp/list_getdeletepic |uniq -c|grep "1 "|awk '{print $2}' | while read line
 do
