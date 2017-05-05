@@ -11,7 +11,8 @@ cd $crea_pic_prefix/$province
 echo "$crea_pic_prefix/$province"
 
 #du -a | cut -d/ -f2 | sort | uniq -c >/tmp/crea_pic_count.raw
-du -a |grep jpg| cut -d/ -f2 | uniq -c >/tmp/crea_pic_count.raw
+#du -a |grep jpg| cut -d/ -f2 | uniq -c >/tmp/crea_pic_count.raw
+ls -fR ./|grep jpg|sed 's/-.*//' |uniq -c >/tmp/crea_pic_count.raw
 
 cat /tmp/crea_pic_count.raw | while read line
 do
