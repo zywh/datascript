@@ -49,11 +49,11 @@ convert_thumbnail  $treb_srcdir
 echo "`date` :End Generate thumbnail" >> $logfile
 
 cd $smalldir
-rsync -e "ssh -i /home/ubuntu/.ssh/id_rsa" -va --delete ./ user_fzuh930p@push-24.cdn77.com:/www/trebtn/
+#rsync -e "ssh -i /home/ubuntu/.ssh/id_rsa" -va --delete ./ user_fzuh930p@push-24.cdn77.com:/www/trebtn/
 echo "`date` :End RSYNC CDN thumbnail" >> $logfile
 
 cd $middir
-rsync -e "ssh -i /home/ubuntu/.ssh/id_rsa" -va --delete ./ user_fzuh930p@push-24.cdn77.com:/www/trebmid/
+#rsync -e "ssh -i /home/ubuntu/.ssh/id_rsa" -va --delete ./ user_fzuh930p@push-24.cdn77.com:/www/trebmid/
 
 echo "`date` :End RSYNC CDN Mid Size Picture" >> $logfile
 
