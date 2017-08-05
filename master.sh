@@ -19,7 +19,7 @@ echo "`date` : End TREB picture cleanup" >>$mlslog
 
 #Update treb pic_num table
 echo "`date` : Start Collect TREB Picture Count " >>$mlslog
-$scriptdir/count_pic_num.sh
+#$scriptdir/count_pic_num.sh
 echo "`date` : End Treb Pic Count Update " >>$mlslog
 
 #sync vow pic to CDN
