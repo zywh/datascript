@@ -45,13 +45,12 @@ done
 }
 
 
-clean_pic  Ontario "Ontario" 29000
 clean_pic  BritishColumbia "British Columbia" 5000
 clean_pic  Alberta "Alberta" 5000
-exit 0
 clean_pic  NewfoundlandLabrador 'Newfoundland & Labrador' 4000
 clean_pic  PrinceEdwardIsland 'Prince Edward Island' 1000
 clean_pic  NewBrunswick 'New Brunswick' 1000
 clean_pic  NovaScotia 'Nova Scotia' 1000
+clean_pic  Ontario "Ontario" 29000
 
 

@@ -45,6 +45,6 @@ ls -f $trebmid | sed 's/Photo//'  >>/tmp/mls_a
 sort /tmp/mls_a |uniq -c|grep "1 "|awk '{print $2}' | while read line
 do
 echo "mv $trebmid/Photo$line /disk2/pichist/trebmid"
-mv $trebmid/Photo$line /disk2/pichist/trebmid
+#mv $trebmid/Photo$line /disk2/pichist/trebmid
 done
 
