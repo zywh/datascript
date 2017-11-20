@@ -15,6 +15,7 @@ residata="$homedir/resi/data/data.txt"
 #resipic="$homedir/resi/picture"
 resipic="/mls/treb"
 trebmid="/mls/trebmid"
+trebtn="/mls/trebtn"
 condodata="$homedir/condo/data/data.txt"
 #condopic="$homedir/condo/picture"
 condopic="/mls/treb"
@@ -38,6 +39,23 @@ do
 echo "rm -r $resipic/Photo$line"
 rm -r $resipic/Photo$line
 done
+
+#Cleanup TREB MID
+
+
+#Cleanup TREB TN
+
+cat $homedir/vowcondo/data/avail.txt $homedir/vowresi/data/avail.txt >/tmp/mls_a
+cp /tmp/mls_a /tmp/activemls
+ls -f $trebtn | sed 's/Photo//'  >>/tmp/mls_a
+sort /tmp/mls_a |uniq -c|grep "1 "|awk '{print $2}' | while read line
+do
+echo "rm -r $trebtn/Photo$line"
+rm -r $trebtn/Photo$line
+done
+
+
+exit 0
 #Backup TREBMID
 echo "backup trebmid"
 cat $homedir/vowcondo/data/avail.txt $homedir/vowresi/data/avail.txt >/tmp/mls_a

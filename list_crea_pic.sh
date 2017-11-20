@@ -3,19 +3,19 @@ echo "Start Finding CREA Pic dir........"
 crearoot="/disk2/crea"
 outfile="/tmp/creadir"
 cd  $crearoot/Ontario
-ls  >$outfile
+ls -f >$outfile
 cd  $crearoot/Alberta
-ls  >>$outfile
+ls  -f>>$outfile
 cd  $crearoot/NovaScotia
-ls  >>$outfile
+ls -f >>$outfile
 cd  $crearoot/NewfoundlandLabrador
-ls  >>$outfile
+ls -f >>$outfile
 cd  $crearoot/NewBrunswick
-ls  >>$outfile
+ls -f >>$outfile
 cd  $crearoot/BritishColumbia
-ls  >>$outfile
+ls  -f >>$outfile
 cd  $crearoot/PrinceEdwardIsland
-ls  >>$outfile
+ls -f  >>$outfile
 echo "End Finding CREA Pic dir"
 
 
